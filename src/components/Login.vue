@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="login-text">login to the</div> 
+        <div class="login-text">login to the</div>
         <div class="chat-panel-text">Chat Panel</div>
 
         <div>
@@ -21,13 +21,18 @@
 
 <script>
 import HttpApi from '@/util/http.js'
+// const glob = require('glob')
+// const path = require('path')
+const {BrowserWindow} = require('electron').remote
+// import BrowserWindow from 'electron'
+
 
 export default {
     name: 'Login',
     data:function(){
         return {
-            username:null,
-            passwd:null
+            username:'askch3ng',
+            passwd:'ch3ng4rb',
         }
     },
     methods:{
@@ -47,7 +52,7 @@ export default {
 
                     //cache user info to vuex
                     this.$store.commit('setUser',JSON.parse(payloadJson));
-                   
+
                     //cache user info and token
                     sessionStorage.setItem("user",payloadJson);
 
@@ -56,26 +61,46 @@ export default {
 
                     //get user property
                     return HttpApi.get('/user/v1/property');
-                       
-                    
+
+
                 }else{
                      this.$notify(response.msg);
                 }
             })
-            .then(response => { // 
+            .then(response => { //
                 if(response){
                     if(response.code == 200){
                         let curUserProperty = response.data;
-                        //cache user property 
+                        //cache user property
                         sessionStorage.setItem("userProperty",JSON.stringify(curUserProperty));
                         //cache user property to vuex
                         this.$store.commit('setUserProperty',curUserProperty);
                         this.$router.replace({path:"/chat"});
+                        // const modalPath = path.join('file://', __dirname, 'a.html');
+                        // console.log(modalPath);
+
+                        // BrowserWindow ss = BrowserWindow.getAllWindows()[0]
+                        const win = BrowserWindow.getAllWindows()[0]
+
+                        win.setSize(1200,600,false);
+                        // let win = new BrowserWindow({ width: 800, height: 600 })
+
+                        // win.on('resize', updateReply)
+                        // win.on('move', updateReply)
+                        // win.on('close', () => { win = null })
+                        // win.loadURL("file:///home/ch3ng/Documents/workspace/github.com/rainbow-desktop/src/components/Chat.vue")
+                        // win.show()
+
+
+                        // function updateReply () {
+                        //     console.log("abc");
+                        // }
+
                     }else{
                         this.$notify(response.msg);
                     }
                 }
-              
+
             })
             .catch(function (error) {
                 console.log(error);

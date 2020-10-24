@@ -1,4 +1,5 @@
 module.exports = {
+    lintOnSave:false,
     devServer: {
       disableHostCheck: true,
         proxy: {
@@ -25,5 +26,10 @@ module.exports = {
             }
           }
         }
+    },
+    pluginOptions:{
+      electronBuilder:{
+        nodeIntegration: true
+      }
     }
 }

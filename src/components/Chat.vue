@@ -15,7 +15,7 @@
                 <div>
                     <div @click.stop="loadBangzhu">
                         <span :class="['iconfont', bangzhu?'icon-bangzhu':'icon-bangzhutianchong']">
-                            
+
                         </span>
                     </div>
                     <div @click.stop="loadShezhi" >
@@ -32,17 +32,17 @@
             <div class="right">
                 <transition name="fade"
                             enter-active-class="fadeIn"
-                            leave-active-class="fadeOut" 
+                            leave-active-class="fadeOut"
                             mode="out-in">
-                    <component :is="rightComName" 
-                                style="animation-duration: .2s" 
+                    <component :is="rightComName"
+                                style="animation-duration: .2s"
                                 @func="rightCom"
                                 @func2="mediumCom"
                                 :key='incrementKey'></component>
                 </transition>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -85,7 +85,7 @@ export default {
         }
     },
     methods:{
-      
+
         connection() {
             this.$ws.disConnection();
             this.$ws.connection(
@@ -99,14 +99,14 @@ export default {
                         this.connection();
                         console.log(err);
                     },5000)
-                    
+
                 })
-        }, 
+        },
         loadChats(){
             this.duihua = false;
-            this.yonghu = this.bangzhu = this.shezhi = true; 
+            this.yonghu = this.bangzhu = this.shezhi = true;
             this.mediumComName = Sessions;
-            
+
         },
         loadContacts(){
             this.yonghu = false;
@@ -116,18 +116,18 @@ export default {
         },
         loadBangzhu(){
             this.bangzhu = false;
-            this.yonghu = this.duihua = this.shezhi = true; 
+            this.yonghu = this.duihua = this.shezhi = true;
         },
         loadShezhi(){
             this.shezhi = false;
-            this.yonghu = this.bangzhu = this.duihua = true; 
+            this.yonghu = this.bangzhu = this.duihua = true;
             this.mediumComName = Settings;
         },
         rightCom(rightCom){
             this.incrementKey+=1;
             //因为rightCom 值没变所以需要强制刷新界面
             this.rightComName = rightCom;
-            
+
         },
         mediumCom(){
             this.loadChats();
@@ -154,15 +154,15 @@ export default {
 
         //local storage
         this.$store.commit("setToken",token);
-        
+
         this.userProperty = userProperty;
         this.connection();
     },
-  
+
     beforeDestroy(){
         this.$ws.disConnection();
     },
-    
+
     components:{
         //right
         Flow,
@@ -172,12 +172,12 @@ export default {
         Contact,
         NewContact,
         Security,
-        
+
         //medium
         Sessions,
         Contacts
     },
-   
+
 }
 
 </script>
@@ -193,21 +193,20 @@ export default {
     justify-content: center;
     color: white;
     /* box-sizing: content-box; */
-   
+
 }
 
 .main{
-    width: 80%;
-    max-width: 1000px;
-    min-width: 800px;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     display: flex;
     border: 1px solid #333;
 
 }
 .left{
     background-color: #333;
-    width: 80px;
+    width: 60px;
+    min-width: 60px;
     height: 100%;
     min-height: 100%;
     display: flex;
@@ -216,7 +215,8 @@ export default {
 }
 .medium{
     background-color: #2A2D2E;
-    width: 280px;
+    width: 220px;
+    min-width: 220px;
     height: 100%;
     min-height: 100%;
     text-align: center;
@@ -224,6 +224,7 @@ export default {
 .right{
     width: 100%;
     height: 100%;
+    min-width: 600px;
     min-height: 100%;
     background-color: #F0F1F5;
     color: black;
