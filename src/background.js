@@ -18,11 +18,11 @@ function createWindow () {
   console.log(process.env.ELECTRON_NODE_INTEGRATION)
   // Create the browser window.
   win = new BrowserWindow({
-    width: 500,
-    height: 800,
+    width: 330,
+    height: 500,
     icon:__static + '/rainbow.png',
     autoHideMenuBar:true,
-    title:false,
+    title:"",
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info

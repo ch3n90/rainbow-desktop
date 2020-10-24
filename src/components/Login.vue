@@ -1,21 +1,45 @@
 <template>
-    <div class="container">
-        <div class="login-text">login to the</div>
-        <div class="chat-panel-text">Chat Panel</div>
+    <div class="login">
+        <div class="top">
+            <div class="avatar">
+                <img src="avatar.png"/>
+            </div>
 
-        <div>
-            <div class="username-text">账户</div>
-            <input class="username-input" type="text" v-model="username">
+            <div>
+                <span class="auth iconfont icon-yonghu"></span>
+                <input class="username-input" type="text" v-model="username">
+            </div>
+
+            <div>
+                <span class="auth iconfont icon-suo"></span>
+                <input class="password-input" type="password" v-model="passwd">
+            </div>
+            <div>
+                <input type="button" value="登  入" class="signIn-btn" @click="signIn"/>
+            </div>
         </div>
 
-        <div>
-            <div class="password-text">密码</div>
-            <input class="password-input" type="password" v-model="passwd">
+        <div class="splite"></div>
+        <div class="bottom">
+                <router-link to="/reset" class="forget">
+                    <ul>
+                        <li>忘 记 密 码 ?</li>
+                        <li>别担心，我们将会给你发送一个新的密码。</li>
+                    </ul>
+                    <span class="iconfont icon-youjiantou"></span>
+                </router-link>
         </div>
-        <div class="f-s-text"><router-link class="authLink" to="/reset">忘记密码 ?</router-link> or <router-link class="authLink" to="/register">注册</router-link></div>
-        <div class="signIn-div">
-            <input type="button" value="SIGN IN" class="signIn-btn" @click="signIn"/>
+         <p/>
+        <div class="bottom">
+            <router-link to="/register" class="register">
+                <ul>
+                    <li>没 有 账 号 ?</li>
+                    <li>现在注册吧，欢迎加入。</li>
+                </ul>
+                <span class="iconfont icon-youjiantou"></span>
+            </router-link>
         </div>
+         <p/>
     </div>
 </template>
 
@@ -76,25 +100,14 @@ export default {
                         //cache user property to vuex
                         this.$store.commit('setUserProperty',curUserProperty);
                         this.$router.replace({path:"/chat"});
-                        // const modalPath = path.join('file://', __dirname, 'a.html');
-                        // console.log(modalPath);
 
-                        // BrowserWindow ss = BrowserWindow.getAllWindows()[0]
                         const win = BrowserWindow.getAllWindows()[0]
 
-                        win.setSize(1200,600,false);
-                        // let win = new BrowserWindow({ width: 800, height: 600 })
-
-                        // win.on('resize', updateReply)
-                        // win.on('move', updateReply)
-                        // win.on('close', () => { win = null })
-                        // win.loadURL("file:///home/ch3ng/Documents/workspace/github.com/rainbow-desktop/src/components/Chat.vue")
-                        // win.show()
+                        win.setSize(1000,800,true);
+                        win.setMinimumSize(1000,800);
+                        win.center(true)
 
 
-                        // function updateReply () {
-                        //     console.log("abc");
-                        // }
 
                     }else{
                         this.$notify(response.msg);
@@ -121,57 +134,86 @@ export default {
 </script>
 
 <style scoped>
-.container .container{
-    min-width: 400px;
-    width: 400px;
-    height: 400px;
-    min-height: 400px;
-    display: block;
+.top,.bottom{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
 }
-.login-text{
+
+.login div{
+    position: relative;
+}
+
+.avatar img{
+    background-color: #fff;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+    margin: 10%;
+}
+.auth{
     position: absolute;
+    font-size: 20px;
+    top: 8px;
+    left: 10px;
 }
-.chat-panel-text{
-    font-size: 75px;
-}
-.username-text{
-    margin-top: 32px;
-}
-.password-text{
-    margin-top: 16px;
-}
+
 .username-input,.password-input{
     width: 100%;
-    height: 32px;
+    height: 36px;
     border: 0px;
     font-size: 20px;
-    outline: none;
-}
-.f-s-text{
-    float: right;
-    margin-top: 16px;
-}
-.authLink {
-    color: white;
-    text-decoration: none;
-}
-.authLink:hover{
-    text-decoration: underline;
-}
-.signIn-div{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    padding-left: 35px;
+    background-color: #0f0f0f;
+    color: #888;
 }
 
 .signIn-btn{
-    margin-top: 20px;
-    padding: 10px;
-    width:130px;
-    height: 50px;
-    outline: none;
-    background-color: #fff;
+    margin: 10px 0 30px 0;
+    width: 100%;
+    border: 0px;
+    border-radius: 3px;
+    height: 40px;
+    background-color: #9d170a;
+    color: #fff;
+}
+
+.splite{
+    width: 100%;
+    height: 10px;
+    background-color: #1a1a1c;
+}
+
+p{
+    width: 100%;
+    height: 2px;
+    background-color: #1a1a1c;
+}
+
+.forget, .register{
+    width: 100%;
+    height: 60px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.forget span,.register span{
+    position: absolute;
+    right: 0px;
+    top: 20px;
+}
+
+ul li{
+   list-style: none;
+   text-align: left;
+   height: 30px;
+   line-height: 30px;
+}
+
+ul li:nth-child(even){
+    color: #888;
 }
 </style>

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1232420",
+      "name": "锁",
+      "font_class": "suo",
+      "unicode": "e720",
+      "unicode_decimal": 59168
+    },
+    {
+      "icon_id": "1232427",
+      "name": "文件夹",
+      "font_class": "wenjianjia",
+      "unicode": "e723",
+      "unicode_decimal": 59171
+    },
+    {
+      "icon_id": "145475",
+      "name": "开心",
+      "font_class": "kaixin",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
       "icon_id": "1232396",
       "name": "关闭",
       "font_class": "guanbi",

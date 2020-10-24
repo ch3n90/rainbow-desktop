@@ -33,22 +33,14 @@ import 'vue2-animate/dist/vue2-animate.min.css'
       for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
       return result;
   }
-  
+
 
 </script>
 
 
 <style scoped>
   .container{
-    background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
     color: white;
   }
 
-</style> 
+</style>

@@ -12,17 +12,17 @@
                      <img class="avatar" v-bind:src="receiver.avatar" alt="">
                     <div v-if="item.msgType == 1">{{item.content.txt}}</div>
                     <div v-else-if="item.msgType == 2">
-                        <img :src="item.content.uri" 
-                        :width="item.content.width | imgW" 
-                        :height="item.content.height | imgH(item.content.width)"/>   
+                        <img :src="item.content.uri"
+                        :width="item.content.width | imgW"
+                        :height="item.content.height | imgH(item.content.width)"/>
                     </div>
                 </div>
                 <div class="bubble" v-else>
                     <div v-if="item.msgType == 1">{{item.content.txt}}</div>
                     <div v-else-if="item.msgType == 2">
-                         <img :src="item.content.uri" 
-                        :width="item.content.width | imgW" 
-                        :height="item.content.height | imgH(item.content.width)"/>   
+                         <img :src="item.content.uri"
+                        :width="item.content.width | imgW"
+                        :height="item.content.height | imgH(item.content.width)"/>
                     </div>
                     <img class="avatar" :src="userProperty.avatar" alt="">
                 </div>
@@ -33,21 +33,19 @@
 
 
             <Picker set="emojione" v-if='emojiDisplay'
-             @select="addEmoji" 
+             @select="addEmoji"
              :title="title" emoji="point_up"
              :style="{ position: 'absolute', bottom: '70px', left: '0px' }"
              :i18n="i18n"
-             :native="true" 
+             :native="true"
              :sheetSize="20"
              :include="include"/>
              <div class="toolbar">
-                 <input type="button" value="😀" @click="showEmojiPicker">
-                 <input type="button" value="🖼️" @click="sendPic">
+                 <span type="button" class="iconfont icon-kaixin" @click="showEmojiPicker"/>
+                 <span type="button" class="iconfont icon-tupian"  @click="sendPic"/>
              </div>
-            
+
             <textarea ref="inputMsg" v-model="msg" @keydown.enter="send2" @keyup.enter="send"></textarea>
-            <input type="button" value="发送" @click="send" class="sendBtn"/>
-           
         </div>
     </div>
 </template>
@@ -120,14 +118,14 @@ export default {
                 //设置请求头
                 let config = {
                     headers:{'Content-Type':'multipart/form-data'}
-                }; 
+                };
                 HttpApi.put('/message/v1/pic/sending',param,config)
                 .then(resp => {
                     if(resp.code == 200){
                         let msgResp = resp.data;
                         this.$store.commit('addMessage',msgResp);
                         this.$db.add(msgResp);
-                        
+
                         let sessions = this.$store.getters.getSessions;
                         let session = sessions[msgResp.receiver];
                         if(session){
@@ -141,7 +139,7 @@ export default {
             });
         },
         showEmojiPicker(){
-          this.emojiDisplay = !this.emojiDisplay;  
+          this.emojiDisplay = !this.emojiDisplay;
         },
         addEmoji(emoji){
             this.msg = this.msg + emoji.native;
@@ -170,7 +168,7 @@ export default {
                     let msgResp = resp.data;
                     this.$store.commit('addMessage',msgResp);
                     this.$db.add(msgResp);
-                    
+
                     let sessions = this.$store.getters.getSessions;
                     let session = sessions[msgResp.receiver]
                     if(session){
@@ -178,11 +176,11 @@ export default {
                         session.lastMsgTime = msgResp.date;
                         sessionStorage.setItem("sessions",JSON.stringify(sessions));
                     }
-                   
+
                 }else{
                     this.$notify(resp.msg);
                 }
-               
+
             }).catch(err => {
                 console.log(err);
             })
@@ -197,7 +195,7 @@ export default {
                                 this.$store.commit("setSession",docs);
             });
         },
-      
+
     },
     created(){
         this.receiver = this.$store.getters.getReceivert;
@@ -298,8 +296,8 @@ export default {
 
 .typing{
     height: 13%;
-    min-height: 100px; 
-    max-height: 100px;
+    min-height: 110px;
+    max-height: 110px;
     width: 100%;
     /* border-top: 1px solid #b2b2b2; */
     position: relative;
@@ -319,22 +317,22 @@ export default {
 
 .content > div{
     padding: 5px 10px;
-  
+
 }
 
 .content .me .bubble{
-    display: flex; 
+    display: flex;
     display: -webkit-flex;
     flex-direction: row;
     justify-content: flex-end;
-} 
+}
 
 .content .me > .bubble div{
     max-width: 60%;
     margin: 5px 5px 0 0;
     background-color: #fff;
-    word-wrap:break-word;  
-    word-break:break-all;  
+    word-wrap:break-word;
+    word-break:break-all;
     border-radius: 20px 0 20px 20px;
     background-color: #25B6D1;
     padding: 5px 10px;
@@ -357,7 +355,7 @@ export default {
 .content .you >.bubble div{
     max-width: 60%;
     margin: 5px 0 0 5px;
-    word-wrap:break-word;  
+    word-wrap:break-word;
     word-break:break-all;
     border-radius: 0 20px 20px 20px;
     background-color: #2DCB70;
@@ -378,36 +376,17 @@ export default {
     height: 30px;
 }
 
-.toolbar input{
+.toolbar span{
     height: 30px;
-    background-color: rgba(0, 0, 0, 0);
     width: 30px;
     margin-left: 10px;
     font-size: 20px;
-    border: 0px;
-    outline: none;
+    line-height: 30px;
+    display: inline-block;
 }
 
-.toolbar input:hover{
+.toolbar span:hover{
      transform: scale(1.1);
 }
 
-.typing .sendBtn{
-    position: absolute;
-    bottom:5px;
-    right: 5px;
-    height: 28px;
-    width: 70px;
-    border-radius: 5px;
-    border: 0px;
-    background-color: #333;
-    color: #fff;
-    cursor: pointer;
-    line-height: 28px;
-    
-}
-
-.typing .sendBtn:hover{
-    transform: scale(1.1);
-}
 </style>
