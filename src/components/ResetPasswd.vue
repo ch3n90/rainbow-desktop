@@ -1,32 +1,51 @@
 <template>
-    <div class="container">
-        <div class="login-text">reset</div> 
-        <div class="chat-panel-text">Password</div>
+    <div class="reset">
+        <div class="top">
+            <div>
+                <input placeholder="邮箱" type="text" v-model="email">
+                <a @click.stop="sendEmail">发送验证码</a>
+            </div>
 
-       <div>
-            <div class="username-text">邮箱</div>
-            <input class="username-input email-input" type="text" v-model="email">
-            <a @click.stop="sendEmail">发送验证码</a>
+            <div>
+                <div class="username-text"></div>
+                <input placeholder="验证码" type="text" v-model="code">
+            </div>
+
+            <div>
+                <input placeholder="账户" type="text" v-model="username">
+            </div>
+
+            <div>
+                <input placeholder="新密码" type="password" v-model="passwd">
+            </div>
+            <div>
+                <input type="button" value="重  置" class="reset-btn" @click.stop="reset"/>
+            </div>
+
         </div>
 
-         <div>
-            <div class="username-text">验证码</div>
-            <input class="username-input" type="text" v-model="code">
+        <div class="splite"></div>
+        <div class="bottom">
+                <router-link to="/login" class="login">
+                    <ul>
+                        <li>现 在 登 入 ！</li>
+                        <li>已经有账号了。</li>
+                    </ul>
+                    <span class="iconfont icon-youjiantou"></span>
+                </router-link>
         </div>
+         <p/>
+        <div class="bottom">
+            <router-link to="/register" class="register">
+                <ul>
+                    <li>没 有 账 号 ?</li>
+                    <li>现在注册吧，欢迎加入。</li>
+                </ul>
+                <span class="iconfont icon-youjiantou"></span>
+            </router-link>
+        </div>
+         <p/>
 
-        <div>
-            <div class="username-text">账户</div>
-            <input class="username-input" type="text" v-model="username">
-        </div>
-
-        <div>
-            <div class="password-text">新密码</div>
-            <input class="password-input" type="password" v-model="passwd">
-        </div>
-        <div class="f-s-text"><router-link class="authLink" to="/register">注册 </router-link>or<router-link class="authLink" to="/login"> 登入</router-link></div>
-        <div class="signIn-div">
-            <input type="button" value="重置" class="signIn-btn" @click.stop="reset"/>
-        </div>
     </div>
 </template>
 
@@ -40,7 +59,7 @@ export default {
             passwd:null,
             code:null,
             email:null
-        } 
+        }
     },
     methods:{
         reset(){
@@ -83,66 +102,79 @@ export default {
 </script>
 
 <style scoped>
-    .container{
-        min-width: 400px;
-        width: 400px;
-        height: 400px;
-        min-height: 400px;
-        display: block;
-    }
+.top,.bottom{
+    width: 90%;
+    margin: 0 auto;
+    /* text-align: center; */
+}
 
-    a{
-        font-size: 12px;
-        cursor: pointer;
-    }
-    a:hover{
-        text-decoration: underline;
-    }
-    .login-text{
-        position: absolute;
-    }
-    .chat-panel-text{
-        font-size: 75px;
-    }
-    .username-text{
-        margin-top: 16px;
-    }
-    .password-text{
-        margin-top: 16px;
-    }
-    .username-input,.password-input{
-        width: 100%;
-        height: 32px;
-        border: 0px;
-        font-size: 20px;
-        outline: none;
-    }
-    .f-s-text{
-        float: right;
-        margin-top: 16px;
-    }
+.reset div{
+    position: relative;
+}
+input{
+    width: 100%;
+    height: 36px;
+    border: 0px;
+    font-size: 14px;
+    background-color: #0f0f0f;
+    border-radius: 3px;
+    padding-left: 5px;
+    color: #888;
+}
 
-    .authLink {
-        color: white;
-        text-decoration: none;
-    }
-    .authLink:hover{
-        text-decoration: underline;
-    }
-    .signIn-div{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content:center;
-    }
+.top div{
+    margin-top: 10px;
+}
 
-    .signIn-btn{
-        margin-top: 20px;
-        padding: 10px;
-        width:130px;
-        height: 50px;
-        outline: none;
-        background-color: #fff;
-    }
+a{
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.reset-btn{
+    width: 100%;
+    border: 0px;
+    border-radius: 3px;
+    height: 40px;
+    background-color: #9d170a;
+    color: #fff;
+    margin: 10px 0 30px 0;
+}
+
+.splite{
+    width: 100%;
+    height: 10px;
+    background-color: #1a1a1c;
+}
+
+p{
+    width: 100%;
+    height: 2px;
+    background-color: #1a1a1c;
+}
+
+.register, .login{
+    width: 100%;
+    height: 60px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.register span,.login span{
+    position: absolute;
+    right: 0px;
+    top: 20px;
+}
+
+ul li{
+   list-style: none;
+   text-align: left;
+   height: 30px;
+   line-height: 30px;
+}
+
+ul li:nth-child(even){
+    color: #888;
+}
 </style>
