@@ -29,6 +29,9 @@
 
 
 <script>
+
+const {BrowserWindow} = require('electron').remote
+
 export default {
     name:"Settings",
     methods:{
@@ -40,7 +43,15 @@ export default {
         },
         exit(){
             sessionStorage.clear();
-            this.$router.replace({path:"/"});
+
+            const win = BrowserWindow.getAllWindows()[0]
+            console.log(win);
+            win.setSize(330,500);
+            win.show;
+            // win.setResizable(false);
+            win.center(true)
+             this.$router.replace({path:"/"});
+
         }
     }
 }

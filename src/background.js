@@ -15,18 +15,20 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 function createWindow () {
-  console.log(process.env.ELECTRON_NODE_INTEGRATION)
   // Create the browser window.
   win = new BrowserWindow({
     width: 330,
     height: 500,
-    icon:__static + '/rainbow.png',
+    minHeight:500,
+    minWidth:330,
+    transparent:true,
     autoHideMenuBar:true,
     title:"",
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+      nodeIntegration: true,
+      enableRemoteModule:true
     }
   })
 

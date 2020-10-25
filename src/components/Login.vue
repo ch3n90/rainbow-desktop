@@ -45,10 +45,7 @@
 
 <script>
 import HttpApi from '@/util/http.js'
-// const glob = require('glob')
-// const path = require('path')
-const {BrowserWindow} = require('electron').remote
-// import BrowserWindow from 'electron'
+// const {BrowserWindow} = require('electron').remote
 
 
 export default {
@@ -72,7 +69,8 @@ export default {
 					if (parts.length == 2 && token.endsWith(".")) {
                         parts = [parts[0],parts[1],""];
 					}
-                    let payloadJson = atob(parts[1]);
+                    // let payloadJson = atob(parts[1]);
+                    let payloadJson = '';
 
                     //cache user info to vuex
                     this.$store.commit('setUser',JSON.parse(payloadJson));
@@ -99,13 +97,34 @@ export default {
                         sessionStorage.setItem("userProperty",JSON.stringify(curUserProperty));
                         //cache user property to vuex
                         this.$store.commit('setUserProperty',curUserProperty);
-                        this.$router.replace({path:"/chat"});
+                        // this.$router.replace({path:"/chat"});
 
-                        const win = BrowserWindow.getAllWindows()[0]
+                        //  let win = new BrowserWindow({
+                        //       width: 1000,
+                        //         height: 800,
+                        //         webPreferences: {
+                        //         // Use pluginOptions.nodeIntegration, leave this alone
+                        //         // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+                        //         nodeIntegration: true
+                        //         } });
+                        // win.loadURL("http://localhost:8080/#/chat");
+                        // win.show();
 
-                        win.setSize(1000,800,true);
-                        win.setMinimumSize(1000,800);
-                        win.center(true)
+                        //  const notification = {
+                        //     title: 'Basic Notification',
+                        //     body: 'Notification from the Main process'
+                        // }
+                        // new Notification(notification).show()
+
+                        // myNotification.onclick = () => {
+                        //     console.log('Notification clicked')
+                        // }
+
+                        // const win = BrowserWindow.getAllWindows()[0]
+
+                        // win.setSize(1000,800);
+                        // win.setMinimumSize(1000,800);
+                        // win.center(true)
 
 
 
