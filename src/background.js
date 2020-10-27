@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow,ipcMain} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -18,18 +18,18 @@ function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     width: 330,
-    height: 500,
-    minHeight:500,
+    height: 550,
+    minHeight:550,
     minWidth:330,
-    transparent:true,
+    resizable:false,
     autoHideMenuBar:true,
-    title:"",
+    frame:false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: true,
       enableRemoteModule:true
-    }
+    },
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -55,6 +55,7 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the

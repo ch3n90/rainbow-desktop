@@ -189,11 +189,11 @@ export default {
         },
         loadMessage(){
             //TODO聊天消息应该加载双方且进行排序
-            this.$db.read(this.$store.getters.getUser.userId,
-                            this.$store.getters.getReceivert.userId,
-                            docs =>{
-                                this.$store.commit("setSession",docs);
-            });
+            // this.$db.read(this.$store.getters.getUser.userId,
+            //                 this.$store.getters.getReceivert.userId,
+            //                 docs =>{
+            //                     this.$store.commit("setSession",docs);
+            // });
         },
 
     },

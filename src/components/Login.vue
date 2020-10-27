@@ -168,6 +168,13 @@ export default {
     height: 80px;
     border-radius: 80px;
     margin: 10%;
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none
 }
 .auth{
     position: absolute;
@@ -196,6 +203,7 @@ export default {
     height: 40px;
     background-color: #9d170a;
     color: #fff;
+    cursor: pointer;
 }
 
 .splite{

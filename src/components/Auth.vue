@@ -1,5 +1,17 @@
 <template>
     <div id="Auth" class="container" >
+      <div class="titlebar"> 
+        <div class="drag"></div>
+        <div class="opbar">
+            <div @click="close">
+              <span class="iconfont icon-guanbi1"></span>
+            </div>
+            <div @click="minimize">
+              <span class="iconfont icon-jianhao"></span>
+            </div>
+        </div>
+      </div>
+      
       <transition  name="fade"
   enter-active-class="fadeInLeft"
   leave-active-class="fadeOutRight" mode="out-in">
@@ -11,6 +23,8 @@
 <script>
 import Login from '@/components/Login'
 import 'vue2-animate/dist/vue2-animate.min.css'
+// const {BrowserWindow} = require( 'electron').remote
+ const {ipcRenderer,app,BrowserWindow} = require('electron')
 
   export default {
     name: 'Auth',
@@ -24,6 +38,15 @@ import 'vue2-animate/dist/vue2-animate.min.css'
             var rString = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
             localStorage.setItem("cid",rString);
          }
+      },
+      methods:{
+        close(){
+          console.log(91);
+        ipcRenderer.send("window-all-closed")
+        },
+        minimize(){
+
+        }
       }
     }
 
@@ -39,8 +62,38 @@ import 'vue2-animate/dist/vue2-animate.min.css'
 
 
 <style scoped>
-  .container{
-    color: white;
-  }
+.container{
+  color: white;
+}
+
+.titlebar{
+  width: 100%;
+  height: 30px;
+}
+.titlebar .drag{
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  height: 100%;
+  width: 80%;
+  float: left;
+}
+.opbar div{
+  float: right;
+  width: 10%;
+  height: 30px;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.opbar div:nth-child(odd):hover{
+  background-color: #9d170a;
+}
+.opbar div:nth-child(even):hover{
+  background-color: #888;
+}
+
+
 
 </style>

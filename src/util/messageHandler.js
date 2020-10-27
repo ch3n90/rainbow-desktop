@@ -9,7 +9,7 @@ let handler = {
         let session = sessions[body.sender];
 
         let curReceiver =  vue.$store.getters.getReceivert
-        vue.$db.add(body);
+        // vue.$db.add(body);
         //当前消息的接收者是否是当前选择的接收这
         if(curReceiver){
             if(body.receiver == curReceiver.userId 
@@ -34,7 +34,7 @@ let handler = {
         let session = sessions[body.sender];
 
         let curReceiver =  vue.$store.getters.getReceivert
-        vue.$db.add(body);
+        // vue.$db.add(body);
         //当前消息的接收者是否是当前选择的接收这
         if(curReceiver){
             if(body.receiver == curReceiver.userId 
