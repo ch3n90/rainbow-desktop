@@ -26,7 +26,7 @@
 
 export default {
     name: 'Loading',
-   created(){
+    created(){
        setTimeout(()=>{
         console.log("123123")
        },3000)
