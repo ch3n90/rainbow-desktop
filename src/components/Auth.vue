@@ -41,11 +41,10 @@ import 'vue2-animate/dist/vue2-animate.min.css'
       },
       methods:{
         close(){
-          console.log(91);
-        ipcRenderer.send("window-all-closed")
+        ipcRenderer.send("auth-win-close")
         },
         minimize(){
-
+          ipcRenderer.send("auth-win-min")
         }
       }
     }

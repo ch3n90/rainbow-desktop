@@ -19,11 +19,12 @@ function createWindow () {
   win = new BrowserWindow({
     width: 330,
     height: 550,
-    minHeight:550,
-    minWidth:330,
     resizable:false,
     autoHideMenuBar:true,
     frame:false,
+    show:false,
+    center:true,
+    backgroundColor: '#222326',
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -41,6 +42,10 @@ function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  win.once('ready-to-show', () => {
+    win.show()
+})
 
   win.on('closed', () => {
     win = null
@@ -79,6 +84,23 @@ app.on('ready', async () => {
   }
   createWindow()
 })
+
+ipcMain.on("auth-win-min",()=>{
+  win.minimize();
+})
+
+ipcMain.on("auth-win-close",()=>{
+win.close();
+})
+
+ipcMain.on("chat-win",()=>{
+  console.log("00000")
+  win.setSize(1000,800);
+  win.center();
+  win.setResizable(true);
+  })
+  
+
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
