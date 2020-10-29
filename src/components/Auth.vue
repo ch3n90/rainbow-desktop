@@ -1,7 +1,6 @@
 <template>
     <div id="Auth" class="container" >
       <div class="titlebar"> 
-        <div class="drag"></div>
         <div class="opbar">
             <div @click="close">
               <span class="iconfont icon-guanbi1"></span>
@@ -67,18 +66,16 @@ import 'vue2-animate/dist/vue2-animate.min.css'
 
 .titlebar{
   width: 100%;
-  height: 30px;
-}
-.titlebar .drag{
-  -webkit-app-region: drag;
+  height: 31px;
+   -webkit-app-region: drag;
   -webkit-user-select: none;
-  height: 100%;
-  width: 80%;
-  float: left;
 }
+
 .opbar div{
+  -webkit-app-region: no-drag;
   float: right;
-  width: 10%;
+  margin: 1px 1px 0 0;
+  width: 30px;
   height: 30px;
   font-size: 20px;
   line-height: 30px;

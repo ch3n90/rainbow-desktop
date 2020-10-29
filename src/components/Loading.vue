@@ -65,7 +65,7 @@ export default {
                         
                         this.$user_db.add(user);
 
-                        this.$store.commit('user',user);
+                        this.$store.commit('setUser',user);
                         this.$router.replace({path:"/chat"});
                         ipcRenderer.send("chat-win");
                     }else{

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="label">
-            <span>聊天</span>
+        <div class="label" style="-webkit-app-region: drag; -webkit-user-select: none;">
+            <span >聊天</span>
         </div>
         <div class="blank">
         </div>

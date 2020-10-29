@@ -8,7 +8,7 @@ export default new Vuex.Store({
       session:[],
       sessions:[],
       contacts:[],
-      user:null,
+      user:'',
       userProperty:null,
       receiver:null,
       token:null,
@@ -40,9 +40,6 @@ export default new Vuex.Store({
       setReceiver(state,receiver){
         state.receiver = receiver;
       },
-      setUserProperty(state,userProperty){
-        state.userProperty = userProperty;
-      },
       setToken(state,token){
         state.token = token;
       },
@@ -68,9 +65,6 @@ export default new Vuex.Store({
       },
       getUser: state => {
         return state.user;
-      },
-      getUserPropery: state => {
-        return state.userProperty;
       },
       getReceivert: state => {
         return state.receiver;

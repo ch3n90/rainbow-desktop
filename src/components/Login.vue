@@ -50,7 +50,7 @@ export default {
     data:function(){
         return {
             username:'askch3ng',
-            passwd:'ch3ng4rb1',
+            passwd:'ch3ng4rb',
         }
     },
     mounted(){

@@ -1,9 +1,17 @@
 <template>
     <div class="container">
+        <div class="opbar">
+            <div @click="close">
+            <span class="iconfont icon-guanbi1"></span>
+            </div>
+            <div @click="minimize">
+            <span class="iconfont icon-jianhao"></span>
+            </div>
+        </div>
         <div class="main">
-            <div class="left">
+            <div class="left" style="-webkit-app-region: drag; -webkit-user-select: none;">
                 <div>
-                    <div @click.stop="loadChats">
+                    <div @click.stop="loadChats" >
                         <span :class="['iconfont',duihua?'icon-duihuaxinxi':'icon-duihuaxinxitianchong']"></span>
                     </div>
                     <div @click.stop="loadContacts">
@@ -22,7 +30,8 @@
                         <span :class="['iconfont', shezhi?'icon-shezhi':'icon-shezhitianchong']"></span>
                     </div>
                     <div>
-                        <img class="icon-avatar" :src="userProperty.avatar" alt="" />
+                        <!-- <img class="icon-avatar" :src="userProperty.avatar" alt="" /> -->
+                        <img class="icon-avatar" alt="" />
                     </div>
                 </div>
             </div>
@@ -64,7 +73,7 @@ import Contacts from './medium/Contacts'
 import Settings from './medium/Settings'
 
 import MessageHandler from '../util/messageHandler'
-
+const {ipcRenderer,app,BrowserWindow} = require('electron')
 export default {
     name:"Chat",
     data(){
@@ -78,7 +87,7 @@ export default {
 
             stompClient:null,
             timer:'',
-            userProperty:null,
+            userProperty:this.$store.getters.getUser.property,
 
             incrementKey:0,
 
@@ -131,10 +140,16 @@ export default {
         },
         mediumCom(){
             this.loadChats();
+        },
+        close(){
+        ipcRenderer.send("auth-win-close")
+        },
+        minimize(){
+          ipcRenderer.send("auth-win-min")
         }
     },
     created(){
-
+        console.log(this.$store.state.user)
         //get user from session storage
         // let userJson = sessionStorage.getItem("user");
         // let userPropertyJson = sessionStorage.getItem("userProperty");
@@ -192,9 +207,38 @@ export default {
     align-items: center;
     justify-content: center;
     color: white;
+    
     /* box-sizing: content-box; */
 
 }
+.opbar{
+    right: 0;
+    z-index: 999;
+    position: absolute;
+    top: 0;
+}
+.opbar div{
+  float: right;
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.opbar div span{
+  font-size: 12px;
+  color: black;
+  line-height: 36px;
+}
+
+.opbar div:nth-child(odd):hover{
+  background-color: #9d170a;
+}
+.opbar div:nth-child(even):hover{
+  background-color: #888;
+}
+
 
 .main{
     width: 100%;
@@ -246,6 +290,7 @@ export default {
 }
 
 .left > div > div{
+    -webkit-app-region: no-drag;
     width: 100%;
     height: 60px;
     border-left: 1px solid #333333;
