@@ -15,7 +15,7 @@
                 <input class="password-input" type="password" v-model="passwd">
             </div>
             <div>
-                <router-link to="/loading" class="signIn-btn">登  入</router-link>
+                <router-link :to="{path:'/loading',query:{username:username,passwd:passwd}}" class="signIn-btn">登  入</router-link>
             </div>
         </div>
 
@@ -44,104 +44,14 @@
 </template>
 
 <script>
-import HttpApi from '@/util/http.js'
- const {ipcRenderer} = require('electron')
-
 
 export default {
     name: 'Login',
     data:function(){
         return {
             username:'askch3ng',
-            passwd:'ch3ng4rb',
+            passwd:'ch3ng4rb1',
         }
-    },
-    methods:{
-        signIn(){
-             this.$router.replace({path:"/chat"});
-            console.log(ipcRenderer)
-            ipcRenderer.send("chat-win");
-            // HttpApi.post('/sys/v1/signIn', {
-            //     username: this.username,
-            //     passwd: this.passwd
-            // })
-            // .then(response => {
-            //     if(response.code == 200){
-            //         const token = response.data;
-            //         let parts = token.split(".");
-			// 		if (parts.length == 2 && token.endsWith(".")) {
-            //             parts = [parts[0],parts[1],""];
-			// 		}
-            //         // let payloadJson = atob(parts[1]);
-            //         let payloadJson = '';
-
-            //         //cache user info to vuex
-            //         this.$store.commit('setUser',JSON.parse(payloadJson));
-
-            //         //cache user info and token
-            //         sessionStorage.setItem("user",payloadJson);
-
-            //          this.$store.commit('setToken',token);
-            //         sessionStorage.setItem("token",token);
-
-            //         //get user property
-            //         return HttpApi.get('/user/v1/property');
-
-
-            //     }else{
-            //          this.$notify(response.msg);
-            //     }
-            // })
-            // .then(response => { //
-            //     if(response){
-            //         if(response.code == 200){
-            //             let curUserProperty = response.data;
-            //             //cache user property
-            //             sessionStorage.setItem("userProperty",JSON.stringify(curUserProperty));
-            //             //cache user property to vuex
-            //             this.$store.commit('setUserProperty',curUserProperty);
-            //             this.$router.replace({path:"/chat"});
-            //             ipcRenderer.send("chat-win");
-            //             //  let win = new BrowserWindow({
-            //             //       width: 1000,
-            //             //         height: 800,
-            //             //         webPreferences: {
-            //             //         // Use pluginOptions.nodeIntegration, leave this alone
-            //             //         // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-            //             //         nodeIntegration: true
-            //             //         } });
-            //             // win.loadURL("http://localhost:8080/#/chat");
-            //             // win.show();
-
-            //             //  const notification = {
-            //             //     title: 'Basic Notification',
-            //             //     body: 'Notification from the Main process'
-            //             // }
-            //             // new Notification(notification).show()
-
-            //             // myNotification.onclick = () => {
-            //             //     console.log('Notification clicked')
-            //             // }
-
-            //             // const win = BrowserWindow.getAllWindows()[0]
-
-            //             // win.setSize(1000,800);
-            //             // win.setMinimumSize(1000,800);
-            //             // win.center(true)
-
-
-
-            //         }else{
-            //             this.$notify(response.msg);
-            //         }
-            //     }
-
-            // })
-            // .catch(function (error) {
-            //     console.log(error);
-            // });
-
-       }
     },
     mounted(){
           document.onkeyup = ()=> {

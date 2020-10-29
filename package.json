@@ -10,17 +10,18 @@
   },
   "main": "background.js",
   "dependencies": {
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0",
-    "vue2-animate": "^2.1.4",
-    "zangodb": "^1.0.8",
+    "dexie": "^3.0.2",
+    "electron": "latest",
+    "emoji-mart-vue": "^2.6.6",
     "sockjs-client": "^1.5.0",
     "stompjs": "^2.3.3",
-    "electron": "latest",
-    "axios": "^0.20.0",
-    "emoji-mart-vue": "^2.6.6"
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vue2-animate": "^2.1.4",
+    "vuex": "^3.4.0",
+    "zangodb": "^1.0.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

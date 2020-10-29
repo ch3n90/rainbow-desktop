@@ -94,6 +94,7 @@ win.close();
 })
 
 ipcMain.on("chat-win",()=>{
+
   console.log("00000")
   win.setSize(1000,800);
   win.center();

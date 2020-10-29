@@ -1,40 +1,42 @@
-import zango from 'zangodb'
+import Dexie from 'dexie'
 
+const user_db = new Dexie("rainbow");
+user_db.version(1).stores({
+    user: "&id,&username"
+});
 
-const DB = new zango.Db('rainbow', { rainbow: ['sender','receiver','date'] });
-const rainbow = DB.collection('rainbow');
-
-DB.install = function(Vue){
+user_db.install = function(Vue){
        
-    Vue.prototype.$db = {
+    Vue.prototype.$user_db = {
         add : o => {
-            rainbow.insert(o);
+            return user_db.user.add(o)
         },
-        close :()=>{
-            DB.close();
+        update: o=>{
+
         },
-        read: (sender,receiver,CALLBACK) => {
-            rainbow.find({
-                $or : [
-                    {$and:[{'sender':sender},{'receiver':receiver}]},
-                    {$and:[{'sender':receiver},{'receiver':sender}]},
-                ],
-            })
-            .project({
-                _id:0,
-                date:'$_id.date'
-            })
-            .sort({date:-1})
-            .skip(0)
-            .limit(10)
-            .toArray((error,docs) =>{
-                if (error) { console.log(error); }
-                CALLBACK(docs?docs.reverse():docs);
-            })
-        }
+        
+        // read: (sender,receiver,CALLBACK) => {
+        //     rainbow.find({
+        //         $or : [
+        //             {$and:[{'sender':sender},{'receiver':receiver}]},
+        //             {$and:[{'sender':receiver},{'receiver':sender}]},
+        //         ],
+        //     })
+        //     .project({
+        //         _id:0,
+        //         date:'$_id.date'
+        //     })
+        //     .sort({date:-1})
+        //     .skip(0)
+        //     .limit(10)
+        //     .toArray((error,docs) =>{
+        //         if (error) { console.log(error); }
+        //         CALLBACK(docs?docs.reverse():docs);
+        //     })
+        // }
     }
 
 
 }
 
-export default DB
+export default user_db

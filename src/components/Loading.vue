@@ -22,14 +22,69 @@
 </template>
 
 <script>
-
-
+const {ipcRenderer} = require('electron')
+import HttpApi from '@/util/http.js'
 export default {
     name: 'Loading',
     created(){
        setTimeout(()=>{
-        console.log("123123")
-       },3000)
+           let user = {};
+           HttpApi.post('/sys/v1/signIn', {
+                username: this.$route.query.username,
+                passwd: this.$route.query.passwd
+            })
+            .then(response => {
+                if(response.code == 200){
+                    const token = response.data;
+                    let parts = token.split(".");
+					if (parts.length == 2 && token.endsWith(".")) {
+                        parts = [parts[0],parts[1],""];
+					}
+                    let payloadJson = atob(parts[1]);
+                    payloadJson = JSON.parse(payloadJson);
+                    //cache user info to vuex
+                    user = {
+                        id: payloadJson.userId,
+                        username:payloadJson.username
+                    }
+                    this.$store.commit('setToken',token);
+                    //get user property
+                    return HttpApi.get('/user/v1/property');
+                }else{
+                    this.$router.replace({path:"/login"});
+                    let myNotification = new Notification('失败',{
+                        body: response.msg,
+                        silent: true,
+                    });
+                }
+            })
+            .then(response => {
+                if(response){
+                    if(response.code == 200){
+                        user.property = response.data;
+                        
+                        this.$user_db.add(user);
+
+                        this.$store.commit('user',user);
+                        this.$router.replace({path:"/chat"});
+                        ipcRenderer.send("chat-win");
+                    }else{
+                       let myNotification = new Notification('失败',{
+                            body: response.msg,
+                            silent: true,
+                        });
+                    }
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+             this.$router.replace({path:"/chat"});
+            // console.log(ipcRenderer)
+            // ipcRenderer.send("chat-win");
+       },1000)
    }
    
 
