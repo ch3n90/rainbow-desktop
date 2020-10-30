@@ -149,30 +149,7 @@ export default {
         }
     },
     created(){
-        console.log("==============");
-        console.log(this.$store.getters.getUser);
-        //get user from session storage
-        // let userJson = sessionStorage.getItem("user");
-        // let userPropertyJson = sessionStorage.getItem("userProperty");
-        // let token = sessionStorage.getItem("token");
-        // if(!userJson || !userPropertyJson || !token){
-        //     this.$ws.disConnection();
-        //     sessionStorage.clear();
-        //     this.$router.replace({path:"/"});
-        //     return;
-        // }
-        // //get user from session storage
-        // this.$store.commit("setUser", JSON.parse(userJson));
-
-        // //get user property from session storage
-        // let userProperty = JSON.parse(userPropertyJson);
-        // this.$store.commit("setUserProperty",userProperty);
-
-        // //local storage
-        // this.$store.commit("setToken",token);
-
-        // this.userProperty = userProperty;
-        // this.connection();
+        this.connection();
     },
 
     beforeDestroy(){

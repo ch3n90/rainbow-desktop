@@ -165,6 +165,7 @@ export default {
                 if(resp.code == 200){
                     let msgResp = resp.data;
                     this.$store.commit('addMessage',msgResp);
+                    console.log(msgResp);
                     this.$db.add(msgResp);
 
                     let sessions = this.$store.getters.getSessions;
@@ -197,8 +198,8 @@ export default {
     },
     created(){
         this.receiver = this.$store.getters.getReceivert;
-        this.user = this.$store.getters.getUser;
-        this.userProperty = this.$store.getters.getUserPropery;
+        // this.user = this.$store.getters.getUser;
+        // this.userProperty = this.$store.getters.getUserPropery;
 
         this.loadMessage();
     },
@@ -367,7 +368,6 @@ export default {
 
 .toolbar {
     border-top: 1px solid #e7e7e7;
-    /* border-bottom: 1px solid #b2b2b2; */
     width: 100%;
     line-height: 30px;
     background-color: #fff;

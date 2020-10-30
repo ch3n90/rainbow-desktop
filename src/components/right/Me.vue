@@ -162,7 +162,7 @@ export default {
 <style scoped>
 
 .right .label{
-    border-bottom: 1px solid #b2b2b2;
+    border-bottom: 1px solid #e7e7e7;
     line-height: 35px;
     text-align: center;
 }
@@ -205,7 +205,7 @@ export default {
     width: 60px;
     height: 60px;
     border-radius: 60px;
-    border: 1px solid #b2b2b2;
+    border: 1px solid #e7e7e7;
 }
 .info .infoDetails{
     margin: 0 20px ;

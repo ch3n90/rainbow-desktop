@@ -45,7 +45,7 @@ export default {
             sessionStorage.clear();
 
             const win = BrowserWindow.getAllWindows()[0]
-            win.setSize(330,500);
+            win.setSize(330,620);
             win.show;
             // win.setResizable(false);
             win.center(true)

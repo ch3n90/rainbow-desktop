@@ -80,11 +80,12 @@ export default {
             })
             .then(response => {
                 if(response.code === 200){
-                    this.$notify("注册成功");
                     this.$router.push({path:"/login"})
-                }else{
-                     this.$notify(response.msg);
                 }
+                let myNotification = new Notification(response.code === 200 ?'成功':'失败',{
+                    body: response.msg,
+                    silent: true,
+                });
             })
             .catch(function (error) {
                 this.$notify(error);
@@ -95,18 +96,16 @@ export default {
                 email: this.email
             })
             .then(response => {
-                if(response.code === 200){
-                    this.$notify("验证码已发送");
-                }else{
-                     this.$notify(response.msg);
-                }
+                let myNotification = new Notification(response.code === 200 ?'成功':'失败',{
+                    body: response.msg,
+                    silent: true,
+                });
             })
             .catch(error=> {
                 console.log(error);
             });
         }
     }
-
 }
 </script>
 

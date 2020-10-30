@@ -4,6 +4,7 @@ const db = new Dexie("rainbow");
 db.version(1).stores({
     user: "&id,&username",
     sessions:"&userId",
+    chat:"$id,receiver,sender,date",
 });
 
 db.install = function(Vue){
@@ -13,25 +14,7 @@ db.install = function(Vue){
             return db.user.put(o);
         },
         
-        // read: (sender,receiver,CALLBACK) => {
-        //     rainbow.find({
-        //         $or : [
-        //             {$and:[{'sender':sender},{'receiver':receiver}]},
-        //             {$and:[{'sender':receiver},{'receiver':sender}]},
-        //         ],
-        //     })
-        //     .project({
-        //         _id:0,
-        //         date:'$_id.date'
-        //     })
-        //     .sort({date:-1})
-        //     .skip(0)
-        //     .limit(10)
-        //     .toArray((error,docs) =>{
-        //         if (error) { console.log(error); }
-        //         CALLBACK(docs?docs.reverse():docs);
-        //     })
-        // }
+        
     }
 
     Vue.prototype.$sessions_db = {
@@ -40,6 +23,30 @@ db.install = function(Vue){
         },
         get : () => {
             return db.sessions.toArray();
+        }
+    }
+
+    Vue.prototype.$chat_db = {
+        add : o => {
+            return db.chat.put(o);
+        },
+        get : (sender,receiver,CALLBACK) => {
+            //TODO
+            db.chat
+            .where({'sender':sender,'receiver':receiver})
+            .or({'sender':receiver,'receiver':sender})
+            
+            .project({
+                _id:0,
+                date:'$_id.date'
+            })
+            .sort({date:-1})
+            .skip(0)
+            .limit(10)
+            .toArray((error,docs) =>{
+                if (error) { console.log(error); }
+                CALLBACK(docs?docs.reverse():docs);
+            })
         }
     }
 
