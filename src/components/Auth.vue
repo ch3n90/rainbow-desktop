@@ -84,7 +84,7 @@ import 'vue2-animate/dist/vue2-animate.min.css'
 }
 
 .opbar div:nth-child(odd):hover{
-  background-color: #9d170a;
+  background-color: #f45454;
 }
 .opbar div:nth-child(even):hover{
   background-color: #888;

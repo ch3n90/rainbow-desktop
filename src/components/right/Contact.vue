@@ -63,7 +63,7 @@ export default {
     name:"Contact",
     data(){
         return {
-            contact: "",
+            contact: {},
             flag:true,
             remark:null,
         }
@@ -102,20 +102,9 @@ export default {
         },
         sendTo(){
             //set current receiver
+            this.$sessions_db.add(this.contact);
             this.$store.commit("setReceiver",this.contact);
-            //cache current user for session list
-            let sessions = sessionStorage.getItem("sessions");
-            if(sessions){
-                sessions = JSON.parse(sessions);
-                if(!sessions[this.contact.userId]){
-                    sessions[this.contact.userId] = this.contact;
-                    sessionStorage.setItem("sessions",JSON.stringify(sessions));
-                }
-            }else{
-                sessions = {};
-                sessions[this.contact.userId] = this.contact;
-                sessionStorage.setItem("sessions",JSON.stringify(sessions))
-            }
+            this.$store.commit("addSession",this.contact);
             this.$emit("func","Flow"); 
             this.$emit("func2","Sessions"); 
 

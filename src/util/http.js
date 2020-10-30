@@ -9,7 +9,6 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-  console.log(token)
     if(token){
         config.headers.authorization = "berarer " + token;
     }

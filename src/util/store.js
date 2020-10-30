@@ -1,18 +1,16 @@
 import Dexie from 'dexie'
 
-const user_db = new Dexie("rainbow");
-user_db.version(1).stores({
-    user: "&id,&username"
+const db = new Dexie("rainbow");
+db.version(1).stores({
+    user: "&id,&username",
+    sessions:"&userId",
 });
 
-user_db.install = function(Vue){
+db.install = function(Vue){
        
     Vue.prototype.$user_db = {
         add : o => {
-            return user_db.user.add(o)
-        },
-        update: o=>{
-
+            return db.user.put(o);
         },
         
         // read: (sender,receiver,CALLBACK) => {
@@ -36,7 +34,15 @@ user_db.install = function(Vue){
         // }
     }
 
+    Vue.prototype.$sessions_db = {
+        add : o => {
+            return db.sessions.put(o);
+        },
+        get : () => {
+            return db.sessions.toArray();
+        }
+    }
 
 }
 
-export default user_db
+export default db

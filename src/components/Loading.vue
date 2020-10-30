@@ -22,7 +22,7 @@
 </template>
 
 <script>
-const {ipcRenderer} = require('electron')
+const {ipcRenderer, session} = require('electron')
 import HttpApi from '@/util/http.js'
 export default {
     name: 'Loading',
@@ -52,39 +52,44 @@ export default {
                     return HttpApi.get('/user/v1/property');
                 }else{
                     this.$router.replace({path:"/login"});
-                    let myNotification = new Notification('失败',{
-                        body: response.msg,
-                        silent: true,
-                    });
+                    throw response.msg;                       
                 }
             })
             .then(response => {
                 if(response){
                     if(response.code == 200){
                         user.property = response.data;
-                        
                         this.$user_db.add(user);
-
                         this.$store.commit('setUser',user);
-                        this.$router.replace({path:"/chat"});
-                        ipcRenderer.send("chat-win");
+                        return HttpApi.get('/contact/v1/list')
                     }else{
-                       let myNotification = new Notification('失败',{
-                            body: response.msg,
-                            silent: true,
-                        });
+                        throw response.msg
                     }
                 }
-
+            }).then(response => {
+                if(response){
+                    if(response.code === 200){
+                        const data = response.data;
+                        this.$store.commit("setContacts",data);
+                        return  this.$sessions_db.get();
+                    }else{
+                        throw response.msg
+                    }
+                }
+            }).then(sessions => {
+                this.$store.commit("setSessions",sessions);
+                ipcRenderer.send("chat-win");
+                this.$router.push({path:"/chat"});
             })
             .catch(function (error) {
-                console.log(error);
+                let myNotification = new Notification('失败',{
+                    body: error,
+                    silent: true,
+                });
             });
 
-             this.$router.replace({path:"/chat"});
-            // console.log(ipcRenderer)
-            // ipcRenderer.send("chat-win");
-       },1000)
+           
+       },500)
    }
    
 

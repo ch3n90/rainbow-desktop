@@ -3,7 +3,7 @@
         <div class="label">
             <span>通讯录</span>
             <div>
-                <span class="iconfont icon-tianjiayonghu" @click.stop="loadAddContactCom"></span>
+                <span class="iconfont icon-tianjiayonghu" style="-webkit-app-region: no-drag;" @click.stop="loadAddContactCom"></span>
             </div>
         </div>
         <div class="search">
@@ -33,14 +33,14 @@
                     </div>
                 </div>
             </div>
-            <div v-for="(item, index) in contacts" :key="item.name" @click.stop="loadContactCom(index)">
+            <div v-for="(item, index) in $store.getters.getContacts" :key="item.name" @click.stop="loadContactCom(index)">
                 <div>
                     <div class="contactAvator">
                         <img :src="item.avatar">
                     </div>
                     <div class="contactInfo">
                         <div class="contactName">
-                            <span>{{item.remark | c}}</span>
+                            <span>{{item.remark }}</span>
                         </div>
                     </div>
                 </div>
@@ -57,18 +57,7 @@ export default {
     name:"Contacts",
      data(){
         return {
-            contacts:null,
             searchContent:null,
-        }
-    },
-    filters:{
-        c:function(content){
-            if(content){
-                return content.length >= 6 ? content.substr(0,6) + "..." : content;
-            }else{
-                return "-";
-            }
-           
         }
     },
     methods:{
@@ -77,7 +66,7 @@ export default {
         },
 
         loadContactCom(index){
-            this.$store.commit("setContact",this.contacts[index])
+            this.$store.commit("setContact",this.$store.getters.getContacts[index])
             this.$emit("func","Contact"); 
         },
 
@@ -100,22 +89,6 @@ export default {
             });
             this.contacts = result;
         }
-    },
-    created(){
-        HttpApi.get('/contact/v1/list')
-            .then(response => {
-                if(response.code === 200){
-                    const data = response.data;
-                    this.contacts = data;
-                    this.$store.commit("setContacts",data);
-                }else{
-                    this.$notify(response.msg);
-                }
-               
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     }
 }
 </script>

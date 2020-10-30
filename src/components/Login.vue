@@ -54,12 +54,12 @@ export default {
         }
     },
     mounted(){
-          document.onkeyup = ()=> {
-                let key = window.event.keyCode;
-                if (key == 13) {
-                    this.signIn();
-                }
-          }
+        //   document.onkeyup = ()=> {
+        //         let key = window.event.keyCode;
+        //         if (key == 13) {
+        //             this.signIn();
+        //         }
+        //   }
     },
 
 }

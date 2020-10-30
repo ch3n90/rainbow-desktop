@@ -24,14 +24,12 @@
                         :width="item.content.width | imgW"
                         :height="item.content.height | imgH(item.content.width)"/>
                     </div>
-                    <img class="avatar" :src="userProperty.avatar" alt="">
+                    <img class="avatar" :src="$store.getters.getUser.property.avatar" alt="">
                 </div>
             </div>
 
         </div>
         <div class="typing" >
-
-
             <Picker set="emojione" v-if='emojiDisplay'
              @select="addEmoji"
              :title="title" emoji="point_up"
@@ -42,7 +40,7 @@
              :include="include"/>
              <div class="toolbar">
                  <span type="button" class="iconfont icon-kaixin" @click="showEmojiPicker"/>
-                 <span type="button" class="iconfont icon-tupian"  @click="sendPic"/>
+                 <span type="button" class="iconfont icon-kaixin"  @click="sendPic"/>
              </div>
 
             <textarea ref="inputMsg" v-model="msg" @keydown.enter="send2" @keyup.enter="send"></textarea>
@@ -280,7 +278,7 @@ export default {
 
 .right .label{
     height: 35px;
-    border-bottom: 1px solid #b2b2b2;
+    border-bottom: 1px solid #e7e7e7;
     line-height: 35px;
     text-align: center;
 }
@@ -297,9 +295,7 @@ export default {
 .typing{
     height: 13%;
     min-height: 110px;
-    max-height: 110px;
     width: 100%;
-    /* border-top: 1px solid #b2b2b2; */
     position: relative;
     bottom: 0px;
 }
@@ -308,7 +304,7 @@ export default {
     display: block;
     width: 100%;
     border: 0;
-    height: 60%;
+    height: 100%;
     resize: none;
     padding: 5px;
     font-size: 16px;
@@ -370,10 +366,11 @@ export default {
 }
 
 .toolbar {
-    border-top: 1px solid #b2b2b2;
-    border-bottom: 1px solid #b2b2b2;
+    border-top: 1px solid #e7e7e7;
+    /* border-bottom: 1px solid #b2b2b2; */
     width: 100%;
-    height: 30px;
+    line-height: 30px;
+    background-color: #fff;
 }
 
 .toolbar span{

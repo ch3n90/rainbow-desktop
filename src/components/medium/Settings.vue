@@ -45,7 +45,6 @@ export default {
             sessionStorage.clear();
 
             const win = BrowserWindow.getAllWindows()[0]
-            console.log(win);
             win.setSize(330,500);
             win.show;
             // win.setResizable(false);
@@ -74,7 +73,7 @@ export default {
     line-height: 35px;
     position: absolute;
     right: 10px;
-    top: -11px;
+    /* top: -11px; */
 }
 
 .setting{
@@ -86,7 +85,6 @@ export default {
 .setting > div{
     background-color:#444;
     padding: 5px 10px;
-    height: 30px;
     line-height: 30px;
     cursor: pointer;
     margin-bottom: 10px;
@@ -103,7 +101,6 @@ export default {
 .exit{
     background-color:#444;
     width: 100%;
-    height: 30px;
     line-height: 30px;
     cursor: pointer;
     padding: 5px 0;

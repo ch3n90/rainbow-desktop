@@ -1,15 +1,7 @@
 <template>
     <div class="container">
-        <div class="opbar">
-            <div @click="close">
-            <span class="iconfont icon-guanbi1"></span>
-            </div>
-            <div @click="minimize">
-            <span class="iconfont icon-jianhao"></span>
-            </div>
-        </div>
         <div class="main">
-            <div class="left" style="-webkit-app-region: drag; -webkit-user-select: none;">
+            <div class="left">
                 <div>
                     <div @click.stop="loadChats" >
                         <span :class="['iconfont',duihua?'icon-duihuaxinxi':'icon-duihuaxinxitianchong']"></span>
@@ -30,21 +22,31 @@
                         <span :class="['iconfont', shezhi?'icon-shezhi':'icon-shezhitianchong']"></span>
                     </div>
                     <div>
-                        <!-- <img class="icon-avatar" :src="userProperty.avatar" alt="" /> -->
-                        <img class="icon-avatar" alt="" />
+                        <img class="icon-avatar" :src="$store.getters.getUser.property.avatar" alt="" />
                     </div>
                 </div>
             </div>
             <div class="medium">
+                <div class="drag" ></div>
                 <component :is="mediumComName" @func="rightCom"></component>
             </div>
             <div class="right">
+                <div class="drag" >
+                    <div class="opbar">
+                        <div @click="close">
+                        <span class="iconfont icon-guanbi1"></span>
+                        </div>
+                        <div @click="minimize">
+                        <span class="iconfont icon-jianhao"></span>
+                        </div>
+                    </div>
+                </div>
                 <transition name="fade"
                             enter-active-class="fadeIn"
                             leave-active-class="fadeOut"
                             mode="out-in">
                     <component :is="rightComName"
-                                style="animation-duration: .2s"
+                                style="animation-duration: .2s;"
                                 @func="rightCom"
                                 @func2="mediumCom"
                                 :key='incrementKey'></component>
@@ -87,8 +89,6 @@ export default {
 
             stompClient:null,
             timer:'',
-            userProperty:this.$store.getters.getUser.property,
-
             incrementKey:0,
 
         }
@@ -149,7 +149,8 @@ export default {
         }
     },
     created(){
-        console.log(this.$store.state.user)
+        console.log("==============");
+        console.log(this.$store.getters.getUser);
         //get user from session storage
         // let userJson = sessionStorage.getItem("user");
         // let userPropertyJson = sessionStorage.getItem("userProperty");
@@ -207,9 +208,6 @@ export default {
     align-items: center;
     justify-content: center;
     color: white;
-    
-    /* box-sizing: content-box; */
-
 }
 .opbar{
     right: 0;
@@ -218,6 +216,7 @@ export default {
     top: 0;
 }
 .opbar div{
+  -webkit-app-region: no-drag;
   float: right;
   width: 36px;
   height: 36px;
@@ -230,22 +229,24 @@ export default {
   font-size: 12px;
   color: black;
   line-height: 36px;
+  
 }
 
 .opbar div:nth-child(odd):hover{
-  background-color: #9d170a;
+  background-color: #f45454;
+}
+.opbar div:nth-child(odd):hover span{ 
+  color: #fff;
 }
 .opbar div:nth-child(even):hover{
-  background-color: #888;
+  background-color: #e3e3e3;
 }
-
 
 .main{
     width: 100%;
     height: 100%;
     display: flex;
     border: 1px solid #333;
-
 }
 .left{
     background-color: #333;
@@ -256,6 +257,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
 }
 .medium{
     background-color: #2A2D2E;
@@ -265,14 +268,22 @@ export default {
     min-height: 100%;
     text-align: center;
 }
+.drag{
+    width: 100%;
+    height: 35px;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    position: absolute;
+}
 .right{
     width: 100%;
     height: 100%;
     min-width: 600px;
     min-height: 100%;
-    background-color: #F0F1F5;
+    background-color: #f5f5f5;
     color: black;
     position: relative;
+    
 }
 
  .iconfont{

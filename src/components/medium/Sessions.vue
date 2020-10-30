@@ -14,10 +14,10 @@
                     </div>
                     <div class="contactInfo">
                         <div class="contactName">
-                            <span>{{item.remark | c}}</span>
+                            <span>{{item.remark }}</span>
                         </div>
                         <div class="lastMsg">
-                            <span>{{item.lastMsg | c}}</span>
+                            <span>{{item.lastMsg }}</span>
                         </div>
                     </div>
                     <div class="contactTime">
@@ -47,12 +47,6 @@ export default {
         }
     },
     filters:{
-        c:function(content){
-            if(content){
-                return content.length >= 6 ? content.substr(0,6) + "..." : content;
-            }
-           
-        },
         format:function(time){
             if(!time){
                 return "--:--";
@@ -73,14 +67,6 @@ export default {
             for (var k in o)
                 if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             return fmt;
-        }
-    },
-    created(){
-        let sessions = sessionStorage.getItem("sessions");
-        if(sessions){
-            this.$store.commit("setSessions",JSON.parse(sessions));
-            // this.sessions = this.$store.getters.getSessions;
-
         }
     }
 }
