@@ -6,32 +6,32 @@
         <div class="info">
             <div class="avator">
                 <span @click="modifiedAvatar">更换</span>
-                <img :src="$store.getters.getUserPropery.avatar" alt="">
+                <img :src="$store.getters.getUser.property.avatar" alt="">
             </div>
             <div class="infoDetails">
                 <table>
                     <tr>
                         <td>昵称</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.nickname}}
+                            {{$store.getters.getUser.property.nickname}}
                         </td>
-                        <td v-else><input class="in" type="text" v-model="$store.getters.getUserPropery.nickname" ></td>
+                        <td v-else><input class="in" type="text" v-model="$store.getters.getUser.property.nickname" ></td>
                     </tr>
 
                     <tr>
                         <td>年龄</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.age}}
+                            {{$store.getters.getUser.property.age}}
                         </td>
-                        <td v-else><input class="in" type="text" v-model="$store.getters.getUserPropery.age" ></td>
+                        <td v-else><input class="in" type="text" v-model="$store.getters.getUser.property.age" ></td>
                     </tr>
                     <tr>
                         <td>性别</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.gender | gender}}
+                            {{$store.getters.getUser.property.gender | gender}}
                         </td>
                         <td v-else>
-                            <select class="in" v-model="$store.getters.getUserPropery.gender" >
+                            <select class="in" v-model="$store.getters.getUser.property.gender" >
                                 <option value="0">女</option>
                                 <option value="1">男</option>
                                 <option value="-1">保密</option>
@@ -42,26 +42,26 @@
                      <tr>
                         <td>电话</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.phone}}
+                            {{$store.getters.getUser.property.phone}}
                         </td>
-                        <td v-else><input class="in" type="text" v-model="$store.getters.getUserPropery.phone" ></td>
+                        <td v-else><input class="in" type="text" v-model="$store.getters.getUser.property.phone" ></td>
                     </tr>
 
                      <tr>
                         <td>邮箱</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.email}}
+                            {{$store.getters.getUser.property.email}}
                         </td>
-                        <td v-else><input class="in" type="text" v-model="$store.getters.getUserPropery.email" ></td>
+                        <td v-else><input class="in" type="text" v-model="$store.getters.getUser.property.email" ></td>
                     </tr>
 
 
                      <tr>
                         <td>签名</td>
                          <td v-if="flag" @click="edit">
-                            {{$store.getters.getUserPropery.signature}}
+                            {{$store.getters.getUser.property.signature}}
                         </td>
-                        <td v-else><input class="in" type="text" v-model="$store.getters.getUserPropery.signature" ></td>
+                        <td v-else><input class="in" type="text" v-model="$store.getters.getUser.property.signature" ></td>
                     </tr>
                 </table>
                 <input v-if="!flag" class="modifiedBtn" type="button" value="修改" @click.stop="modified">
@@ -98,7 +98,7 @@ export default {
         },
         modified(){
             this.flag = true;
-            let property = this.$store.getters.getUserPropery
+            let property = this.$store.getters.getUser.property;
             HttpApi.post("/user/v1/property",{
                 age:property.age,
                 email:property.email,

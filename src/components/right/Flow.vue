@@ -50,8 +50,8 @@
 
 <script>
 import HttpApi  from '../../util/http'
-
 import { Picker } from 'emoji-mart-vue'
+const {queryChats,insertChat} = require('../../repsitory/chats')
 
 export default {
     name:"Flow",
@@ -59,8 +59,8 @@ export default {
         return {
             msg : '',
             // user: null,
-            userProperty:null,
             receiver:null,
+            pageNum:1,
             typing:null,
             // flow:this.$store.getters.getSession,
             emojiDisplay:false,
@@ -122,8 +122,7 @@ export default {
                     if(resp.code == 200){
                         let msgResp = resp.data;
                         this.$store.commit('addMessage',msgResp);
-                        this.$db.add(msgResp);
-
+                        insertChat(msgResp);
                         let sessions = this.$store.getters.getSessions;
                         let session = sessions[msgResp.receiver];
                         if(session){
@@ -165,8 +164,7 @@ export default {
                 if(resp.code == 200){
                     let msgResp = resp.data;
                     this.$store.commit('addMessage',msgResp);
-                    console.log(msgResp);
-                    this.$db.add(msgResp);
+                    insertChat(msgResp);
 
                     let sessions = this.$store.getters.getSessions;
                     let session = sessions[msgResp.receiver]
@@ -187,12 +185,10 @@ export default {
 
         },
         loadMessage(){
-            //TODO聊天消息应该加载双方且进行排序
-            // this.$db.read(this.$store.getters.getUser.userId,
-            //                 this.$store.getters.getReceivert.userId,
-            //                 docs =>{
-            //                     this.$store.commit("setSession",docs);
-            // });
+            //聊天消息应该加载双方且进行排序
+            queryChats(this.$store.getters.getReceivert.userId,this.pageNum, docs => {
+                this.$store.commit("setSession",docs);
+            });
         },
 
     },

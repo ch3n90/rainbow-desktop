@@ -94,12 +94,16 @@ win.close();
 })
 
 ipcMain.on("chat-win",()=>{
-
-  console.log("00000")
   win.setSize(1000,800);
   win.center();
   win.setResizable(true);
-  })
+})
+  
+ipcMain.on("login-win",()=>{
+  win.setSize(330,620);
+  win.center();
+  win.setResizable(false);
+})
   
 
 

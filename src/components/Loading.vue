@@ -24,6 +24,9 @@
 <script>
 const {ipcRenderer, session} = require('electron')
 import HttpApi from '@/util/http.js'
+
+const {insertUser} = require('../repsitory/users')
+const {querySessions} = require('../repsitory/sessions')
 export default {
     name: 'Loading',
     created(){
@@ -59,7 +62,7 @@ export default {
                 if(response){
                     if(response.code == 200){
                         user.property = response.data;
-                        this.$user_db.add(user);
+                        insertUser(user);
                         this.$store.commit('setUser',user);
                         return HttpApi.get('/contact/v1/list')
                     }else{
@@ -71,7 +74,7 @@ export default {
                     if(response.code === 200){
                         const data = response.data;
                         this.$store.commit("setContacts",data);
-                        return  this.$sessions_db.get();
+                        return querySessions();
                     }else{
                         throw response.msg
                     }

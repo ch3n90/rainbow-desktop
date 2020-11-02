@@ -29,9 +29,7 @@
 
 
 <script>
-
-const {BrowserWindow} = require('electron').remote
-
+const {ipcRenderer, session} = require('electron')
 export default {
     name:"Settings",
     methods:{
@@ -42,15 +40,8 @@ export default {
             this.$emit("func","Security");
         },
         exit(){
-            sessionStorage.clear();
-
-            const win = BrowserWindow.getAllWindows()[0]
-            win.setSize(330,620);
-            win.show;
-            // win.setResizable(false);
-            win.center(true)
-             this.$router.replace({path:"/"});
-
+            ipcRenderer.send("login-win");
+            this.$router.push({path:"/"});
         }
     }
 }

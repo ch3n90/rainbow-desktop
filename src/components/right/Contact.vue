@@ -58,6 +58,7 @@
 
 <script>
 import HttpApi from '../../util/http'
+const {insertSessions} = require('../../repsitory/sessions')
 
 export default {
     name:"Contact",
@@ -102,7 +103,7 @@ export default {
         },
         sendTo(){
             //set current receiver
-            this.$sessions_db.add(this.contact);
+            insertSessions(this.contact);
             this.$store.commit("setReceiver",this.contact);
             this.$store.commit("addSession",this.contact);
             this.$emit("func","Flow"); 
