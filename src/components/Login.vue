@@ -144,17 +144,17 @@ label::before {
     border-right: none;
     transform: rotate(-45deg);
     top: 2px;
-    left: 2px;
+    left: 1px;
     position: absolute;
     opacity: 0;
 }
 .remember input:checked+label {
       background: #888;
   }
-  .remember input:checked+label::before{
-      opacity: 1;
-      transform: all 0.5s;
-  }
+.remember input:checked+label::before{
+    opacity: 1;
+    transform: all 0.5s;
+}
 
 .remember span{
     position: absolute;
