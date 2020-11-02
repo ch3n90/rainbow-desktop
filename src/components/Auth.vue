@@ -90,6 +90,4 @@ import 'vue2-animate/dist/vue2-animate.min.css'
   background-color: #888;
 }
 
-
-
 </style>

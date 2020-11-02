@@ -14,6 +14,12 @@
                 <span class="auth iconfont icon-suo"></span>
                 <input class="password-input" type="password" v-model="passwd">
             </div>
+
+            <div class="remember">
+                <input type="checkbox" id="inputId">
+                <label for="inputId"></label>
+                <span>记住我</span>
+            </div>
             <div>
                 <router-link :to="{path:'/loading',query:{username:username,passwd:passwd}}" class="signIn-btn">登  入</router-link>
             </div>
@@ -108,6 +114,56 @@ export default {
     color: #888;
 }
 
+.remember{
+    text-align: left;
+    height: 20px;
+    /* background-color: lightblue; */
+    margin: -10px 0 10px 0;
+    position: relative;
+}
+
+.remember input{
+    display: none;
+}
+  label {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 1px;
+      border: 1px solid #888;
+      position: relative;
+      cursor: pointer;
+  }
+label::before {
+    display: inline-block;
+    content: " ";
+    width: 6px;
+    border: 2px solid #fff;
+    height: 2px;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    top: 2px;
+    left: 2px;
+    position: absolute;
+    opacity: 0;
+}
+.remember input:checked+label {
+      background: #888;
+  }
+  .remember input:checked+label::before{
+      opacity: 1;
+      transform: all 0.5s;
+  }
+
+.remember span{
+    position: absolute;
+    top:11%;
+    left: 3%;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #888;
+}
 .signIn-btn{
     display: inline-block;
     margin: 10px 0 30px 0;
