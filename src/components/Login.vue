@@ -5,12 +5,20 @@
                 <img src="avatar.png"/>
             </div>
 
-            <div>
+            <div class="username-div">
                 <span class="auth iconfont icon-yonghu"></span>
+                <span :class="[statusOfMoreUser?'clickMoreUser moreUser iconfont icon-icon_sanjiaoxing':'moreUser iconfont icon-icon_sanjiaoxing']" @click="moreUser"></span>
                 <input class="username-input" type="text" v-model="username">
+                    <transition  name="fade"
+                    enter-active-class="fadeIn"
+                    leave-active-class="fadeOut" mode="out-in">
+                            <div v-show="statusOfMoreUser" class="otherUser "></div>
+                        </transition>
+                
             </div>
+            
 
-            <div>
+            <div class="password-div">
                 <span class="auth iconfont icon-suo"></span>
                 <input class="password-input" type="password" v-model="passwd">
             </div>
@@ -50,14 +58,27 @@
 </template>
 
 <script>
-
+const {queryUser} = require('../repsitory/users')
 export default {
     name: 'Login',
     data:function(){
         return {
+            user:{},
             username:'askch3ng',
             passwd:'ch3ng4rb',
+            statusOfMoreUser:false,
         }
+    },
+    methods:{
+        moreUser(){
+            this.statusOfMoreUser = !this.statusOfMoreUser;
+        }
+    },
+    created(){
+        queryUser()
+        .then(docs => {
+            //TODO
+        })
     },
     mounted(){
         //   document.onkeyup = ()=> {
@@ -76,9 +97,6 @@ export default {
     width: 90%;
     margin: 0 auto;
     text-align: center;
-}
-
-.login div{
     position: relative;
 }
 
@@ -87,7 +105,6 @@ export default {
     height: 80px;
     border-radius: 80px;
     margin: 10%;
-    moz-user-select: -moz-none;
     -moz-user-select: none;
     -o-user-select:none;
     -khtml-user-select:none;
@@ -95,12 +112,42 @@ export default {
     -ms-user-select:none;
     user-select:none
 }
+
+.username-div,.password-div{
+    position: relative;
+}
 .auth{
     position: absolute;
     font-size: 20px;
     top: 8px;
     left: 10px;
 }
+
+.moreUser{
+    position: absolute;
+    font-size: 20px;
+    top: 8px;
+    right: 10px;
+}
+
+.clickMoreUser{
+    transform:rotate(180deg);
+    -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+}
+
+.otherUser{
+    background-color: #0f0f0f;
+    width: 100%;
+    height: 160px;
+    max-height: 160px;
+    position: absolute;
+    top: 40px;
+    z-index: 888;
+    border-radius: 3px;
+    /* visibility: hidden; */
+    animation-duration: 0.5s
+}
+
 
 .username-input,.password-input{
     width: 100%;
@@ -117,7 +164,6 @@ export default {
 .remember{
     text-align: left;
     height: 20px;
-    /* background-color: lightblue; */
     margin: -10px 0 10px 0;
     position: relative;
 }

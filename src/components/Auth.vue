@@ -22,7 +22,6 @@
 <script>
 import Login from '@/components/Login'
 import 'vue2-animate/dist/vue2-animate.min.css'
-// const {BrowserWindow} = require( 'electron').remote
  const {ipcRenderer,app,BrowserWindow} = require('electron')
 
   export default {
