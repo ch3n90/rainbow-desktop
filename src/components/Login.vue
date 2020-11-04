@@ -2,7 +2,7 @@
     <div class="login">
         <div class="top">
             <div class="avatar">
-                <img src="avatar.png"/>
+                <img :src="avatar"/>
             </div>
 
             <div class="username-div">
@@ -12,11 +12,24 @@
                     <transition  name="fade"
                     enter-active-class="fadeIn"
                     leave-active-class="fadeOut" mode="out-in">
-                            <div v-show="statusOfMoreUser" class="otherUser "></div>
+                            <div v-show="statusOfMoreUser" class="otherUser ">
+                                <div class="items" v-for="(item,index) in users" :key="index" @click="selectUser(index)">
+                                    <div class="item">
+                                       <div class="item-avatar">
+                                            <img :src="item.property.avatar" alt="">   
+                                        </div> 
+                                       <div class="item-info">
+                                           <span class="nickname">{{ item.property.nickname }}</span>
+                                           <span class="username">{{ item.username }}</span>
+                                        </div> 
+                                       <div class="item-close">
+                                            <span class="iconfont icon-guanbi1" @click="deleteUser(index)"></span>   
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
                         </transition>
-                
             </div>
-            
 
             <div class="password-div">
                 <span class="auth iconfont icon-suo"></span>
@@ -24,12 +37,12 @@
             </div>
 
             <div class="remember">
-                <input type="checkbox" id="inputId">
+                <input type="checkbox" id="inputId" v-model="rememberMe">
                 <label for="inputId"></label>
                 <span>记住我</span>
             </div>
             <div>
-                <router-link :to="{path:'/loading',query:{username:username,passwd:passwd}}" class="signIn-btn">登  入</router-link>
+                <input type="button" class="signIn-btn" value="登  入" @click="login">
             </div>
         </div>
 
@@ -59,25 +72,57 @@
 
 <script>
 const {queryUser} = require('../repsitory/users')
+
 export default {
     name: 'Login',
     data:function(){
         return {
-            user:{},
-            username:'askch3ng',
-            passwd:'ch3ng4rb',
+            avatar:"",
+            username:'',
+            passwd:'',
+            rememberMe:false,
             statusOfMoreUser:false,
+            users:[],
         }
     },
     methods:{
+        login(){
+            let user = {
+                username: this.username,
+                passwd:this.passwd,
+                rememberMe:this.rememberMe,
+            }
+            console.log(user);
+            this.$store.commit("setUser",user);
+            this.$router.replace({path:"/loading"});
+        },
         moreUser(){
             this.statusOfMoreUser = !this.statusOfMoreUser;
+        },
+        selectUser(index){
+            this.statusOfMoreUser = false;
+            let currentUser = this.users[index];
+            this.avatar = currentUser.property.avatar;
+            this.username = currentUser.username;
+            this.passwd = currentUser.passwd; 
+        },
+        deleteUser(index){
+            console.log(index);
         }
     },
     created(){
         queryUser()
         .then(docs => {
-            //TODO
+            if(docs && docs.length > 0){
+                let currentUser = docs[0];
+                this.avatar = currentUser.property.avatar;
+                this.username = currentUser.username;
+                this.passwd = currentUser.passwd; 
+                this.rememberMe = currentUser.rememberMe;
+            }else{
+                this.avatar = 'avatar.png';
+            }
+            this.users = docs;
         })
     },
     mounted(){
@@ -145,7 +190,9 @@ export default {
     z-index: 888;
     border-radius: 3px;
     /* visibility: hidden; */
-    animation-duration: 0.5s
+    animation-duration: 0.5s;
+    padding: 10px 0;
+    
 }
 
 
@@ -161,6 +208,65 @@ export default {
     color: #888;
 }
 
+.items:hover{
+    background-color: #888;
+}
+
+.items:hover .item .item-close{
+    visibility: visible;
+} 
+
+.item{
+    width: 90%;
+    height: 60px;
+    margin: 0 auto;
+}
+
+.item .item-avatar{
+    width: 25%;
+    height: 100%;
+    float: left;
+}
+
+.item .item-avatar img{
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    margin: 5px auto;
+}
+
+.item .item-info{
+    width: 65%;
+    height: 100%;
+    float: left;
+    text-align: left;
+    font-size: 14px;
+}
+
+.item .item-info .nickname{
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+    line-height: 40px;
+}
+
+.item .item-info .username{
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+}
+
+.item .item-close{
+    width: 10%;
+    height: 60px;
+    float: left;
+    font-size: 14px;
+    text-align: center;
+    line-height: 60px;
+    visibility: hidden;
+}
+
 .remember{
     text-align: left;
     height: 20px;
@@ -171,15 +277,15 @@ export default {
 .remember input{
     display: none;
 }
-  label {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 1px;
-      border: 1px solid #888;
-      position: relative;
-      cursor: pointer;
-  }
+label {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 1px;
+    border: 1px solid #888;
+    position: relative;
+    cursor: pointer;
+}
 label::before {
     display: inline-block;
     content: " ";

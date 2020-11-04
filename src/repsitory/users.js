@@ -5,7 +5,7 @@ function insert(doc){
 }
 
 function query(){
-    return db.users.toArray();
+    return db.users.orderBy("lastLoginTime").reverse().toArray();
 }
 
 export {insert as insertUser,query as queryUser}

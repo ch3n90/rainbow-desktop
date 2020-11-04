@@ -25,16 +25,17 @@
 const {ipcRenderer, session} = require('electron')
 import HttpApi from '@/util/http.js'
 
+// const md5 = require('md5');
 const {insertUser} = require('../repsitory/users')
 const {querySessions} = require('../repsitory/sessions')
 export default {
     name: 'Loading',
     created(){
        setTimeout(()=>{
-           let user = {};
+           let user = this.$store.getters.getUser;
            HttpApi.post('/sys/v1/signIn', {
-                username: this.$route.query.username,
-                passwd: this.$route.query.passwd
+                username: user.username,
+                passwd: user.passwd,
             })
             .then(response => {
                 if(response.code == 200){
@@ -46,10 +47,7 @@ export default {
                     let payloadJson = atob(parts[1]);
                     payloadJson = JSON.parse(payloadJson);
                     //cache user info to vuex
-                    user = {
-                        id: payloadJson.userId,
-                        username:payloadJson.username
-                    }
+                    user.id = payloadJson.userId
                     this.$store.commit('setToken',token);
                     //get user property
                     return HttpApi.get('/user/v1/property');
@@ -62,8 +60,11 @@ export default {
                 if(response){
                     if(response.code == 200){
                         user.property = response.data;
-                        insertUser(user);
+                        user.lastLoginTime = new Date().getTime();
                         this.$store.commit('setUser',user);
+                        if(user.rememberMe){
+                            insertUser(user);
+                        }
                         return HttpApi.get('/contact/v1/list')
                     }else{
                         throw response.msg

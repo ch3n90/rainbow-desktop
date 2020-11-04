@@ -9,7 +9,6 @@ export default new Vuex.Store({
       sessions: [],
       contacts:[],
       user:{},
-      userProperty:null,
       receiver:null,
       token:null,
       contact:null,
