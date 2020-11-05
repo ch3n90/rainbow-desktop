@@ -26,7 +26,7 @@ const {ipcRenderer, session} = require('electron')
 import HttpApi from '@/util/http.js'
 
 // const md5 = require('md5');
-const {insertUser} = require('../repsitory/users')
+const {insertUser,removeById} = require('../repsitory/users')
 const {querySessions} = require('../repsitory/sessions')
 export default {
     name: 'Loading',
@@ -64,6 +64,8 @@ export default {
                         this.$store.commit('setUser',user);
                         if(user.rememberMe){
                             insertUser(user);
+                        }else{
+                            removeById(user.id);
                         }
                         return HttpApi.get('/contact/v1/list')
                     }else{

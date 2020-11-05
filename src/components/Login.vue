@@ -1,19 +1,28 @@
 <template>
-    <div class="login">
+    <div class="login" @click.stop="lost">
         <div class="top">
             <div class="avatar">
-                <img :src="avatar"/>
+                <ul v-if="!avatar">
+                    <li style="background-color:#E72339"></li>
+                    <li style="background-color:#F39233"></li>
+                    <li style="background-color:#FCFC98"></li>
+                    <li style="background-color:#CFFD9B"></li>
+                    <li style="background-color:#30E5FA"></li>
+                    <li style="background-color:#4C5A9B"></li>
+                    <li style="background-color:#C679A5"></li>
+                </ul>
+                <img v-else :src="avatar"/>
             </div>
 
             <div class="username-div">
                 <span class="auth iconfont icon-yonghu"></span>
-                <span :class="[statusOfMoreUser?'clickMoreUser moreUser iconfont icon-icon_sanjiaoxing':'moreUser iconfont icon-icon_sanjiaoxing']" @click="moreUser"></span>
-                <input class="username-input" type="text" v-model="username">
+                <span :class="[statusOfMoreUser?'clickMoreUser moreUser iconfont icon-icon_sanjiaoxing':'moreUser iconfont icon-icon_sanjiaoxing']" @click.stop="moreUser"></span>
+                <input class="username-input" type="text" spellcheck="false" v-model="username">
                     <transition  name="fade"
                     enter-active-class="fadeIn"
                     leave-active-class="fadeOut" mode="out-in">
-                            <div v-show="statusOfMoreUser" class="otherUser ">
-                                <div class="items" v-for="(item,index) in users" :key="index" @click="selectUser(index)">
+                            <div v-show="statusOfMoreUser" class="otherUser">
+                                <div class="items" v-for="(item,index) in users" :key="index" @click.stop="selectUser(index)">
                                     <div class="item">
                                        <div class="item-avatar">
                                             <img :src="item.property.avatar" alt="">   
@@ -23,7 +32,7 @@
                                            <span class="username">{{ item.username }}</span>
                                         </div> 
                                        <div class="item-close">
-                                            <span class="iconfont icon-guanbi1" @click="deleteUser(index)"></span>   
+                                            <span class="iconfont icon-guanbi1" @click.stop="deleteUser(index)"></span>   
                                         </div> 
                                     </div>
                                 </div>
@@ -39,7 +48,7 @@
             <div class="remember">
                 <input type="checkbox" id="inputId" v-model="rememberMe">
                 <label for="inputId"></label>
-                <span>记住我</span>
+                <span @click.stop="clickRememberMe">记住我</span>
             </div>
             <div>
                 <input type="button" class="signIn-btn" value="登  入" @click="login">
@@ -71,15 +80,15 @@
 </template>
 
 <script>
-const {queryUser} = require('../repsitory/users')
+const {queryUser,removeById} = require('../repsitory/users')
 
 export default {
     name: 'Login',
     data:function(){
         return {
-            avatar:"",
-            username:'',
-            passwd:'',
+            avatar:null,
+            username:null,
+            passwd:null,
             rememberMe:false,
             statusOfMoreUser:false,
             users:[],
@@ -107,23 +116,35 @@ export default {
             this.passwd = currentUser.passwd; 
         },
         deleteUser(index){
-            console.log(index);
+            let currentUser = this.users[index];
+            if(currentUser.username === this.username){
+                this.username = null;
+                this.avatar = null;
+                this.passwd = null;
+                this.rememberMe = false;
+            }
+            removeById(currentUser.id);
+            this.users.splice(index);
+        },
+        clickRememberMe(){
+            this.rememberMe = !this.rememberMe;
+        },
+        lost(){
+            this.statusOfMoreUser = false;
         }
     },
     created(){
         queryUser()
-        .then(docs => {
-            if(docs && docs.length > 0){
-                let currentUser = docs[0];
-                this.avatar = currentUser.property.avatar;
-                this.username = currentUser.username;
-                this.passwd = currentUser.passwd; 
-                this.rememberMe = currentUser.rememberMe;
-            }else{
-                this.avatar = 'avatar.png';
-            }
-            this.users = docs;
-        })
+            .then(docs => {
+                if(docs && docs.length > 0){
+                    let currentUser = docs[0];
+                    this.avatar = currentUser.property.avatar;
+                    this.username = currentUser.username;
+                    this.passwd = currentUser.passwd; 
+                    this.rememberMe = currentUser.rememberMe;
+                }
+                this.users = docs;
+            });
     },
     mounted(){
         //   document.onkeyup = ()=> {
@@ -144,8 +165,24 @@ export default {
     text-align: center;
     position: relative;
 }
+.avatar ul{
+    background-color: #333;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+    overflow: hidden;
+    display: inline-block;
+     margin: 10%;
+}
+
+.avatar ul li{
+    width: 100%;
+    height: 14.28%;
+}
+
 
 .avatar img{
+    background-color: #fff;
     width: 80px;
     height: 80px;
     border-radius: 80px;
@@ -183,17 +220,34 @@ export default {
 .otherUser{
     background-color: #0f0f0f;
     width: 100%;
-    height: 160px;
-    max-height: 160px;
+    min-height: 60px;
+    max-height: 180px;
     position: absolute;
     top: 40px;
     z-index: 888;
     border-radius: 3px;
-    /* visibility: hidden; */
     animation-duration: 0.5s;
     padding: 10px 0;
-    
+    overflow-y:scroll;
 }
+
+.otherUser::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #000;
+}
+
+.otherUser::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #000;
+}
+
+.otherUser::-webkit-scrollbar-thumb
+{
+	background-color: #fff;
+}
+
 
 
 .username-input,.password-input{
@@ -315,6 +369,7 @@ label::before {
     margin-left: 10px;
     font-size: 12px;
     color: #888;
+    cursor: pointer;
 }
 .signIn-btn{
     display: inline-block;
