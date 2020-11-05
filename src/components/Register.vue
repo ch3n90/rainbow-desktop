@@ -88,7 +88,7 @@ export default {
                 });
             })
             .catch(function (error) {
-                this.$notify(error);
+               console.log(error);
             });
         },
         sendEmail(){

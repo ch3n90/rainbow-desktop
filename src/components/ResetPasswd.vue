@@ -71,10 +71,16 @@ export default {
             })
             .then(response => {
                 if(response.code === 200){
-                    this.$notify("密码重置成功");
+                    let myNotification = new Notification('成功',{
+                        body: "密码重置成功",
+                        silent: true,
+                    });
                     this.$router.push({path:"/login"});
                 }else{
-                    this.$notify(response.msg);
+                    let myNotification = new Notification('失败',{
+                        body: response.msg,
+                        silent: true,
+                    });
                 }
             })
             .catch(error=> {
@@ -88,9 +94,15 @@ export default {
             })
             .then(response => {
                 if(response.code === 200){
-                    this.$notify("验证码已发送");
+                    let myNotification = new Notification('成功',{
+                        body: "验证码已发送",
+                        silent: true,
+                    });
                 }else{
-                        this.$notify(response.msg);
+                    let myNotification = new Notification('失败',{
+                        body: response.msg,
+                        silent: true,
+                    });
                 }
             })
             .catch(error=> {
