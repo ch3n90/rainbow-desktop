@@ -35,7 +35,7 @@ export default {
         return {
             flag: false,
             content:null,
-            user:'',
+            user:{},
         }
     },
     methods:{
@@ -62,11 +62,10 @@ export default {
         },
         addContact(){
             let searchUser = this.user;
-            let userProperty = this.$store.getters.getUserPropery;
             let user = this.$store.getters.getUser;
             let senderContactBrief = {
-                avatar:userProperty.avatar,
-                nickname: userProperty.nickname,
+                avatar:user.property.avatar,
+                nickname: user.property.nickname,
                 username: user.username,
             };
 
@@ -95,14 +94,20 @@ export default {
                     if(response.data){
                         this.$store.getters.getContacts.push(response.data)
                     }else{
-                        this.$notify("验证消息已发送");
+                        let myNotification = new Notification('成功',{
+                            body: "验证消息已发送",
+                            silent: true,
+                        });
                     }
                     
                 }else{
-                    this.$notify(response.msg);
+                    throw response.msg;
                 }
             }).catch(error => {
-                console.log(error)
+                let myNotification = new Notification('失败',{
+                    body: error,
+                    silent: true,
+                });
             })
         }
         

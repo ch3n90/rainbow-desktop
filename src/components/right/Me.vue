@@ -74,6 +74,7 @@
 
 <script>
 import HttpApi from '../../util/http'
+const {updatePropertyByUserId} = require('../../repsitory/users')
 export default {
     name:"Me",
     data(){
@@ -98,7 +99,8 @@ export default {
         },
         modified(){
             this.flag = true;
-            let property = this.$store.getters.getUser.property;
+            let user = this.$store.getters.getUser;
+            let property = user.property;
             HttpApi.post("/user/v1/property",{
                 age:property.age,
                 email:property.email,
@@ -108,12 +110,18 @@ export default {
                 nickname:property.nickname,
             })
             .then(resp => {
-               if(resp.code != 200){
-                   this.$notify(resp.msg);
+               if(resp.code === 200){
+                   //更新本地数据库
+                     updatePropertyByUserId(user);
+               }else{
+                   throw resp.msg;
                }
             })
             .catch(err => {
-                console.log(err)
+                  let myNotification = new Notification('失败',{
+                    body: err,
+                    silent: true,
+                });
             })
         },
         modifiedAvatar(){
@@ -138,12 +146,12 @@ export default {
                 HttpApi.post('/user/v1/avatar',param,config)
                 .then(response => {
                     if(response.code == 200){
-                        let userProperty = this.$store.getters.getUserPropery;
                         //更新缓存
-                        userProperty.avatar = response.data;
-                        this.$store.commit("setUserProperty",userProperty);
-                        //更新session
-                        sessionStorage.setItem("userProperty",JSON.stringify(userProperty));
+                        let user = this.$store.getters.getUser;
+                        user.property.avatar = response.data;
+                        this.$set(user,user.property.avatar,response.data);
+                        //更新本地数据库
+                        updatePropertyByUserId(user);
                     }
                 })
 

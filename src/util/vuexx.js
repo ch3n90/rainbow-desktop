@@ -10,7 +10,6 @@ export default new Vuex.Store({
       contacts:[],
       user:{},
       receiver:null,
-      token:null,
       contact:null,
       contactUnread:false,
     },
@@ -51,9 +50,6 @@ export default new Vuex.Store({
       setReceiver(state,receiver){
         state.receiver = receiver;
       },
-      setToken(state,token){
-        state.token = token;
-      },
     },
     getters: {
       getContactUnread: state => {
@@ -67,9 +63,6 @@ export default new Vuex.Store({
       },
       getContact: state => {
         return state.contact;
-      },
-      getToken: state => {
-        return state.token;
       },
       getSession: state => {
         return state.session;

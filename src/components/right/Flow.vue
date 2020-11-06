@@ -175,11 +175,14 @@ export default {
                     }
 
                 }else{
-                    this.$notify(resp.msg);
+                    throw resp.msg;
                 }
 
             }).catch(err => {
-                console.log(err);
+                let myNotification = new Notification('失败',{
+                    body: err,
+                    silent: true,
+                });
             })
             this.msg = '';
 
@@ -361,6 +364,25 @@ export default {
     height: 35px;
     border-radius: 35px;
 }
+
+.content::-webkit-scrollbar-track
+{
+	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); */
+	background-color: #f5f5f5;
+}
+
+.content::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #f5f5f5;
+}
+
+.content::-webkit-scrollbar-thumb
+{
+	background-color: #d2d2d2;
+    border-radius: 8px;
+}
+
 
 .toolbar {
     border-top: 1px solid #e7e7e7;

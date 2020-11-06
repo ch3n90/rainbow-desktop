@@ -40,6 +40,7 @@ export default {
             .then(response => {
                 if(response.code == 200){
                     const token = response.data;
+                    sessionStorage.setItem("token",token);
                     let parts = token.split(".");
 					if (parts.length == 2 && token.endsWith(".")) {
                         parts = [parts[0],parts[1],""];
@@ -48,7 +49,6 @@ export default {
                     payloadJson = JSON.parse(payloadJson);
                     //cache user info to vuex
                     user.id = payloadJson.userId
-                    this.$store.commit('setToken',token);
                     //get user property
                     return HttpApi.get('/user/v1/property');
                 }else{

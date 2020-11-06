@@ -8,9 +8,9 @@ WS.install = function(Vue){
        
     Vue.prototype.$ws = {
         
-        connection: (user,token,SUCCESS,ERROR)=> {
+        connection: (user,SUCCESS,ERROR)=> {
             // 建立连接对象
-            
+            let token = sessionStorage.getItem("token");
             let cid =  localStorage.getItem("cid");
            
             let socket = new SockJS('/ws/rainbow-ws?sid='+token+"&cid="+cid);

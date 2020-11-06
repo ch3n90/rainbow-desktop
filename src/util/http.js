@@ -1,17 +1,21 @@
 import axios from 'axios'
 import router from '../router/index'
 
-let token ="eyJ0eXAiOiJKV1QiLCJ0eXBlIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIxIiwiYXVkIjoiZGV2IiwibmJmIjoxNjAzOTc0MzQwLCJpc3MiOiJodHRwczovL3JhaW5ib3cubWlsY2hzdHJhYmUuY29tIiwiZXhwIjoxNjAzOTc1NDIwLCJpYXQiOjE2MDM5NzQzNDAsInVzZXJJZCI6IjVmNmYwYzJlNWUwYTc1Mzg4ODdjNDhjNiIsImp0aSI6IjI3ZDFjM2E3MDZkZTRmODBhOTUwMjkzZmNhNGE0OGRjIiwidXNlcm5hbWUiOiJhc2tjaDNuZyJ9.Ka5hGGrtmcsLC3vAEuYRlnpMwA01dFwzV_c4KjwHPMY";
+let token = sessionStorage.getItem("token");
+const uri = process.env.NODE_ENV === 'development'
+? '/rb'
+: 'http://192.168.1.118/rb'
 
 const instance = axios.create({
-    baseURL: '/rb',
+    baseURL: uri,
     timeout: 10000
 });
 
 instance.interceptors.request.use(function (config) {
-    if(token){
-        config.headers.authorization = "berarer " + token;
+    if(!token){
+      token = sessionStorage.getItem("token");
     }
+    config.headers.authorization = "berarer " + token;
     return config;
   }, function (error) {
     return Promise.reject(error);

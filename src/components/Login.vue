@@ -101,7 +101,6 @@ export default {
                 passwd:this.passwd,
                 rememberMe:this.rememberMe,
             }
-            console.log(user);
             this.$store.commit("setUser",user);
             this.$router.replace({path:"/loading"});
         },

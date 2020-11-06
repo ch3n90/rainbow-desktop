@@ -5,6 +5,7 @@ let handler = {
      * 文本消息
      */
     1:(body,vue) => {
+        console.log(body);
         let sessions = vue.$store.getters.getSessions;
         let session = sessions[body.sender];
 
@@ -17,7 +18,10 @@ let handler = {
                 vue.$store.commit('addMessage',body);
             }
         }else{
-            vue.$notify("新消息");
+            let myNotification = new Notification('新消息',{
+                body: "收到一个新消息",
+                silent: true,
+            });
             //添加未读红点
             session.unread = true;
         }
@@ -42,7 +46,10 @@ let handler = {
                 vue.$store.commit('addMessage',body);
             }
         }else{
-            vue.$notify("新消息");
+            let myNotification = new Notification('新消息',{
+                body: "收到一个新消息",
+                silent: true,
+            });
             //添加未读红点
             session.unread = true;
         }
@@ -54,14 +61,20 @@ let handler = {
      * 添加好友消息
      */
     10: (body,vue) =>{
-        vue.$notify("添加好友请求");
+        let myNotification = new Notification('新消息',{
+            body: "添加好友请求",
+            silent: true,
+        });
         vue.$store.commit("setContactUnread",true);
     },
     /**
      * 同意添加好友请求
      */
     11: (body,vue) => {
-        vue.$notify(body.content.username + "现在已经是你的好友了");
+        let myNotification = new Notification('新消息',{
+            body: body.content.username + "已经成为你的好友了",
+            silent: true,
+        });
         let contact = {
             avatar:body.content.avatar,
             createTime:body.content.createTime,

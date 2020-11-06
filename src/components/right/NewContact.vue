@@ -80,11 +80,14 @@ export default {
                         contacts.push(contact);
                     }
                 }else{
-                   this.$notify(response.msg);
+                   throw response.msg;
                 }
                 
             }).catch(error => {
-                console.log(error);
+                let myNotification = new Notification('失败',{
+                    body: error,
+                    silent: true,
+                });
             })
         },
         

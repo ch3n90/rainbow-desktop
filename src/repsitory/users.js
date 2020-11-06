@@ -11,8 +11,13 @@ function remove(id){
         .delete();
 }
 
+function updatePropertyByUserId(user){
+    return db.users
+        .update(user.id,{"property":user.property});
+}
+
 function query(){
     return db.users.orderBy("lastLoginTime").reverse().toArray();
 }
 
-export {insert as insertUser,query as queryUser,remove as removeById}
+export {insert as insertUser,query as queryUser,remove as removeById,updatePropertyByUserId}

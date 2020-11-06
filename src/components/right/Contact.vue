@@ -94,7 +94,10 @@ export default {
                     }
                     this.$emit("func",""); 
                 }else{
-                    this.$notify(resp.msg);
+                    let myNotification = new Notification('成功',{
+                        body: resp.msg,
+                        silent: true,
+                    });
                 }
             })
             .catch(err => {
@@ -187,12 +190,15 @@ export default {
                         }
                     }
                 }else{
-                    this.$notify(response.msg);
+                    throw response.msg;
                 }
                 
             })
             .catch(function (error) {
-                console.log(error);
+                let myNotification = new Notification('失败',{
+                    body: error,
+                    silent: true,
+                });
             });
     }
 }

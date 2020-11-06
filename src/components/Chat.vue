@@ -99,7 +99,6 @@ export default {
             this.$ws.disConnection();
             this.$ws.connection(
                 this.$store.getters.getUser,
-                this.$store.getters.getToken,
                 body => {
                     MessageHandler[body['msgType']](body,this);
                 },err =>{
