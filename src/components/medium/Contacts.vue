@@ -33,7 +33,10 @@
                     </div>
                 </div>
             </div>
-            <div v-for="(item, index) in $store.getters.getContacts" :key="item.name" @click.stop="loadContactCom(index)">
+            <div v-for="(item, index) in $store.getters.getContacts"
+            :key="item.name"
+            @click.stop="loadContactCom(index)"
+            :class="item.userId == contact.userId ? 'select' : ''">
                 <div>
                     <div class="contactAvator">
                         <img :src="item.avatar">
@@ -53,10 +56,11 @@
 <script>
 import HttpApi from '../../util/http.js'
 export default {
-    
+
     name:"Contacts",
      data(){
         return {
+            contact:{},
             searchContent:null,
         }
     },
@@ -66,12 +70,13 @@ export default {
         },
 
         loadContactCom(index){
-            this.$store.commit("setContact",this.$store.getters.getContacts[index])
-            this.$emit("func","Contact"); 
+            this.contact = this.$store.getters.getContacts[index];
+            this.$store.commit("setContact",this.contact);
+            this.$emit("func","Contact");
         },
 
         newContact(){
-            this.$emit("func","NewContact"); 
+            this.$emit("func","NewContact");
             this.$store.commit("setContactUnread",false);
         },
         search(){
@@ -141,6 +146,10 @@ export default {
   height: 87%;
   overflow-y:auto;
   border: 0px;
+}
+
+.list .select{
+    background-color: #232323;
 }
 
 .list > div{

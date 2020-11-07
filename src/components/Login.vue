@@ -25,15 +25,15 @@
                                 <div class="items" v-for="(item,index) in users" :key="index" @click.stop="selectUser(index)">
                                     <div class="item">
                                        <div class="item-avatar">
-                                            <img :src="item.property.avatar" alt="">   
-                                        </div> 
+                                            <img :src="item.property.avatar" alt="">
+                                        </div>
                                        <div class="item-info">
                                            <span class="nickname">{{ item.property.nickname }}</span>
                                            <span class="username">{{ item.username }}</span>
-                                        </div> 
+                                        </div>
                                        <div class="item-close">
-                                            <span class="iconfont icon-guanbi1" @click.stop="deleteUser(index)"></span>   
-                                        </div> 
+                                            <span class="iconfont icon-guanbi1" @click.stop="deleteUser(index)"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@ export default {
             let currentUser = this.users[index];
             this.avatar = currentUser.property.avatar;
             this.username = currentUser.username;
-            this.passwd = currentUser.passwd; 
+            this.passwd = currentUser.passwd;
         },
         deleteUser(index){
             let currentUser = this.users[index];
@@ -139,7 +139,7 @@ export default {
                     let currentUser = docs[0];
                     this.avatar = currentUser.property.avatar;
                     this.username = currentUser.username;
-                    this.passwd = currentUser.passwd; 
+                    this.passwd = currentUser.passwd;
                     this.rememberMe = currentUser.rememberMe;
                 }
                 this.users = docs;
@@ -247,8 +247,6 @@ export default {
 	background-color: #fff;
 }
 
-
-
 .username-input,.password-input{
     width: 100%;
     height: 36px;
@@ -267,7 +265,7 @@ export default {
 
 .items:hover .item .item-close{
     visibility: visible;
-} 
+}
 
 .item{
     width: 90%;
@@ -324,23 +322,22 @@ export default {
     text-align: left;
     height: 20px;
     margin: -10px 0 10px 0;
-    position: relative;
+    display: flex;
 }
 
 .remember input{
     display: none;
 }
 label {
-    display: inline-block;
     width: 12px;
     height: 12px;
     border-radius: 1px;
     border: 1px solid #888;
     position: relative;
     cursor: pointer;
+    margin-top: 4px;
 }
 label::before {
-    display: inline-block;
     content: " ";
     width: 6px;
     border: 2px solid #fff;
@@ -362,9 +359,6 @@ label::before {
 }
 
 .remember span{
-    position: absolute;
-    top:11%;
-    left: 3%;
     margin-left: 10px;
     font-size: 12px;
     color: #888;

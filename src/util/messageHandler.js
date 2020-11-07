@@ -8,7 +8,7 @@ let handler = {
      * 文本消息
      */
     1:(body,vue) => {
-        let curReceiver =  vue.$store.getters.getReceivert;
+        let curReceiver =  vue.$store.getters.getReceiver;
         //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
             if(body.sender === curReceiver.userId){
@@ -53,7 +53,7 @@ let handler = {
      * 图片消息
      */
     2:(body,vue) => {
-        let curReceiver =  vue.$store.getters.getReceivert;
+        let curReceiver =  vue.$store.getters.getReceiver;
         //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
             if(body.sender === curReceiver.userId){

@@ -6,8 +6,10 @@
         <div class="blank">
         </div>
         <div class="list">
-            <div v-for="(item,index) in $store.getters.getSessions" :key="item.userId">
-                <div @click.stop="loadFlowCom(index)">
+            <div v-for="(item,index) in $store.getters.getSessions" :key="item.userId"
+                @click.stop="loadFlowCom(index)"
+                :class="item.userId === $store.getters.getReceiver.userId ? 'select':''">
+                <div>
                     <div class="contactAvator">
                         <img :src="item.avatar">
                         <div class="unread" v-if="item.unread"></div>
@@ -35,7 +37,6 @@ export default {
     name:"Sessions",
     data(){
         return {
-            // sessions:[],
         }
     },
     methods:{
@@ -108,6 +109,10 @@ export default {
   height: 87%;
   overflow-y:auto;
   border: 0px;
+}
+
+.list .select{
+    background-color: #232323;
 }
 
 .list > div{

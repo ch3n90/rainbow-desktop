@@ -9,8 +9,8 @@ export default new Vuex.Store({
       sessions: [],
       contacts:[],
       user:{},
-      receiver:null,
-      contact:null,
+      receiver:{},
+      contact:{},
       contactUnread:false,
     },
     mutations: {
@@ -29,7 +29,7 @@ export default new Vuex.Store({
           }
         }
         if(flag){
-          state.sessions.unshift(session);  
+          state.sessions.unshift(session);
         }
       },
       setContacts(state,contacts){
@@ -70,7 +70,7 @@ export default new Vuex.Store({
       getUser: state => {
         return state.user;
       },
-      getReceivert: state => {
+      getReceiver: state => {
         return state.receiver;
       }
     }

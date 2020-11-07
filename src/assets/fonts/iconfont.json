@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1471079",
+      "name": "表情",
+      "font_class": "biaoqing-xue",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "4553742",
+      "name": "文件",
+      "font_class": "wenjian1",
+      "unicode": "e7e0",
+      "unicode_decimal": 59360
+    },
+    {
       "icon_id": "6251508",
       "name": "icon_三角形",
       "font_class": "icon_sanjiaoxing",
@@ -32,20 +46,6 @@
       "font_class": "suo",
       "unicode": "e720",
       "unicode_decimal": 59168
-    },
-    {
-      "icon_id": "1232427",
-      "name": "文件夹",
-      "font_class": "wenjianjia",
-      "unicode": "e723",
-      "unicode_decimal": 59171
-    },
-    {
-      "icon_id": "145475",
-      "name": "开心",
-      "font_class": "kaixin",
-      "unicode": "e653",
-      "unicode_decimal": 58963
     },
     {
       "icon_id": "1232396",

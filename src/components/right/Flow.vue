@@ -39,8 +39,8 @@
              :sheetSize="20"
              :include="include"/>
              <div class="toolbar">
-                 <span type="button" class="iconfont icon-kaixin" @click="showEmojiPicker"/>
-                 <span type="button" class="iconfont icon-kaixin"  @click="sendPic"/>
+                 <span type="button" class="iconfont icon-biaoqing-xue" @click="showEmojiPicker"/>
+                 <span type="button" class="iconfont icon-wenjian1"  @click="sendPic"/>
              </div>
 
             <textarea ref="inputMsg" v-model="msg" @keydown.enter="send2" @keyup.enter="send"></textarea>
@@ -180,14 +180,14 @@ export default {
         },
         loadMessage(){
             //聊天消息应该加载双方且进行排序
-            queryChats(this.$store.getters.getReceivert.userId,this.pageNum, docs => {
+            queryChats(this.$store.getters.getReceiver.userId,this.pageNum, docs => {
                 this.$store.commit("setSession",docs);
             });
         },
 
     },
     created(){
-        this.receiver = this.$store.getters.getReceivert;
+        this.receiver = this.$store.getters.getReceiver;
         // this.user = this.$store.getters.getUser;
         // this.userProperty = this.$store.getters.getUserPropery;
 
@@ -378,21 +378,22 @@ export default {
 .toolbar {
     border-top: 1px solid #e7e7e7;
     width: 100%;
-    line-height: 30px;
     background-color: #fff;
 }
 
 .toolbar span{
-    height: 30px;
-    width: 30px;
-    margin-left: 10px;
-    font-size: 20px;
     line-height: 30px;
-    display: inline-block;
+    width: 30px;
+    margin-left: 15px;
+    font-size: 25px;
+    line-height: 30px;
+    color: #666;
+    /* display: inline-block; */
+    /* font-size: 30px; */
 }
 
 .toolbar span:hover{
-     transform: scale(1.1);
+    cursor: pointer;
 }
 
 </style>
