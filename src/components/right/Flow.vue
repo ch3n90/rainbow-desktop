@@ -11,7 +11,7 @@
                 <div class="bubble" v-if="item.sender == receiver.userId">
                      <img class="avatar" v-bind:src="receiver.avatar" alt="">
                     <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                    <div v-else-if="item.msgType == 2">
+                    <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
                         <img :src="item.content.uri"
                         :width="item.content.width | imgW"
                         :height="item.content.height | imgH(item.content.width)"/>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="bubble" v-else>
                     <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                    <div v-else-if="item.msgType == 2">
+                    <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
                          <img :src="item.content.uri"
                         :width="item.content.width | imgW"
                         :height="item.content.height | imgH(item.content.width)"/>
@@ -33,7 +33,7 @@
             <Picker set="emojione" v-if='emojiDisplay'
              @select="addEmoji"
              :title="title" emoji="point_up"
-             :style="{ position: 'absolute', bottom: '70px', left: '0px' }"
+             :style="{ position: 'absolute', bottom: '110px', left: '0px' }"
              :i18n="i18n"
              :native="true"
              :sheetSize="20"
@@ -52,6 +52,7 @@
 import HttpApi  from '../../util/http'
 import { Picker } from 'emoji-mart-vue'
 const {queryChats,insertChat} = require('../../repsitory/chats')
+const {updateLastMsgTimeAndLastMsgContentById} = require('../../repsitory/sessions')
 
 export default {
     name:"Flow",
@@ -164,7 +165,21 @@ export default {
                 if(resp.code == 200){
                     let msgResp = resp.data;
                     this.$store.commit('addMessage',msgResp);
+                    ////////////////////////////////////////////////
+                    let sessions = this.$store.getters.getSessions;
+                    let session = null;
+                    let i = 0;
+                    for(;i<sessions.length; i++){
+                        if(sessions[i]['userId'] === msgResp['receiver']){
+                            session = sessions[i];
+                            break;
+                        }
+                    }
+                    session.lastMsgTime = msgResp.date;
+                    session.lastMsg = msgResp.content.txt;
+                    ////////////////////////////////////////////////
                     insertChat(msgResp);
+                    updateLastMsgTimeAndLastMsgContentById(msgResp.date,msgResp.content.txt,false)
                 }else{
                     throw resp.msg;
                 }

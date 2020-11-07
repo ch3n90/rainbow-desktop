@@ -8,4 +8,12 @@ function query(ownership){
     return db.sessions.where('ownership').equals(ownership).toArray();
 }
 
-export {insert as insertSessions,query as querySessions}
+function updateLastMsgTimeAndLastMsgContentById(lastMsgTime,lastMsgContent,unread,userId){
+    return db.sessions.where("userId")
+        .equals(userId)
+        .modify({"lastMsgTime":lastMsgTime,"lastMsg":lastMsgContent,"unread":unread});
+}
+
+export {insert as insertSessions,
+    query as querySessions,
+    updateLastMsgTimeAndLastMsgContentById}

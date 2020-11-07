@@ -163,7 +163,7 @@ export default {
 
 .contactTime{
     height: 35px;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .contactAvator .unread {
@@ -178,6 +178,7 @@ export default {
 
 .lastMsg{
     height: 20px;
+    font-size: 11px;
 }
 
 </style>>

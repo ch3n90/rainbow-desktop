@@ -41,8 +41,8 @@ export default new Vuex.Store({
       setSession (state,session) {
         state.session = session;
       },
-      addMessage(state,session) {
-        state.session.push(session);
+      addMessage(state,msg) {
+        state.session.push(msg);
       },
       setUser(state,user){
         state.user = user;

@@ -323,6 +323,7 @@ export default {
     height: 20px;
     margin: -10px 0 10px 0;
     display: flex;
+    align-items: center;
 }
 
 .remember input{
@@ -335,7 +336,6 @@ label {
     border: 1px solid #888;
     position: relative;
     cursor: pointer;
-    margin-top: 4px;
 }
 label::before {
     content: " ";
