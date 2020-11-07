@@ -205,13 +205,13 @@ export default {
   font-size: 12px;
   color: black;
   line-height: 36px;
-  
+
 }
 
 .opbar div:nth-child(odd):hover{
   background-color: #f45454;
 }
-.opbar div:nth-child(odd):hover span{ 
+.opbar div:nth-child(odd):hover span{
   color: #fff;
 }
 .opbar div:nth-child(even):hover{
@@ -259,7 +259,7 @@ export default {
     background-color: #f5f5f5;
     color: black;
     position: relative;
-    
+
 }
 
  .iconfont{

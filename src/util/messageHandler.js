@@ -1,61 +1,98 @@
 
+const {insertSessions} = require('../repsitory/sessions')
+const {insertChat} = require('../repsitory/chats')
+
 let handler = {
 
     /**
      * 文本消息
      */
     1:(body,vue) => {
-        console.log(body);
-        let sessions = vue.$store.getters.getSessions;
-        let session = sessions[body.sender];
-
-        let curReceiver =  vue.$store.getters.getReceivert
-        // vue.$db.add(body);
-        //当前消息的接收者是否是当前选择的接收这
+        let curReceiver =  vue.$store.getters.getReceivert;
+        //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
-            if(body.receiver == curReceiver.userId 
-                || body.sender == curReceiver.userId){
+            if(body.sender === curReceiver.userId){
                 vue.$store.commit('addMessage',body);
             }
-        }else{
-            let myNotification = new Notification('新消息',{
-                body: "收到一个新消息",
-                silent: true,
-            });
-            //添加未读红点
-            session.unread = true;
         }
-       
-        session.lastMsg = body.content.txt;
-        session.lastMsgTime = body.date;
-        sessionStorage.setItem("sessions",JSON.stringify(sessions));
+
+        let sessions = vue.$store.getters.getSessions;
+        let session = null;
+        let i = 0;
+        for(;i<sessions.length; i++){
+            if(sessions[i]['userId'] == body['sender']){
+                session = sessions[i];
+                break;
+            }
+        }
+        if(!session){
+            let contacts = vue.$store.getters.getContacts;
+            for(let i=0;i<contacts.length; i++){
+                if(contacts[i].userId == body.sender){
+                    session = contacts[i];
+                    break;
+                }
+            }
+            session.unread = true;
+            session.lastMsg = body.content.txt;
+            session.ownership = vue.$store.getters.getUser.id;
+            session.lastMsgTime = body.date;
+            sessions.push(session);
+            insertSessions(session);
+        }else{
+            session.lastMsg = body.content.txt;
+            session.lastMsgTime = body.date;
+            if(curReceiver && session.userId != curReceiver.userId){
+                session.unread = true;
+            }
+            vue.$set(sessions,i,session);
+        }
+        insertChat(body);
     },
     /**
      * 图片消息
      */
     2:(body,vue) => {
-        let sessions = vue.$store.getters.getSessions;
-        let session = sessions[body.sender];
-
-        let curReceiver =  vue.$store.getters.getReceivert
-        // vue.$db.add(body);
-        //当前消息的接收者是否是当前选择的接收这
+        let curReceiver =  vue.$store.getters.getReceivert;
+        //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
-            if(body.receiver == curReceiver.userId 
-                || body.sender == curReceiver.userId){
+            if(body.sender === curReceiver.userId){
                 vue.$store.commit('addMessage',body);
             }
-        }else{
-            let myNotification = new Notification('新消息',{
-                body: "收到一个新消息",
-                silent: true,
-            });
-            //添加未读红点
-            session.unread = true;
         }
-        session.lastMsg = "[图片]";
-        session.lastMsgTime = body.date;
-        sessionStorage.setItem("sessions",JSON.stringify(sessions));
+
+        let sessions = vue.$store.getters.getSessions;
+        let session = null;
+        let i = 0;
+        for(;i<sessions.length; i++){
+            if(sessions[i]['userId'] == body['sender']){
+                session = sessions[i];
+                break;
+            }
+        }
+        if(!session){
+            let contacts = vue.$store.getters.getContacts;
+            for(let i=0;i<contacts.length; i++){
+                if(contacts[i].userId == body.sender){
+                    session = contacts[i];
+                    break;
+                }
+            }
+            session.unread = true;
+            session.lastMsg = '[图片]';
+            session.ownership = vue.$store.getters.getUser.id;
+            session.lastMsgTime = body.date;
+            sessions.push(session);
+            insertSessions(session);
+        }else{
+            session.lastMsg = '[图片]';
+            session.lastMsgTime = body.date;
+            if(curReceiver && session.userId != curReceiver.userId){
+                session.unread = true;
+            }
+            vue.$set(sessions,i,session);
+        }
+        insertChat(body);
     },
     /**
      * 添加好友消息

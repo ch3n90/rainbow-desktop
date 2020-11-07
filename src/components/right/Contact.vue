@@ -92,7 +92,7 @@ export default {
                             break;
                         }
                     }
-                    this.$emit("func",""); 
+                    this.$emit("func","");
                 }else{
                     let myNotification = new Notification('成功',{
                         body: resp.msg,
@@ -109,8 +109,8 @@ export default {
             insertSessions(this.contact);
             this.$store.commit("setReceiver",this.contact);
             this.$store.commit("addSession",this.contact);
-            this.$emit("func","Flow"); 
-            this.$emit("func2","Sessions"); 
+            this.$emit("func","Flow");
+            this.$emit("func2","Sessions");
 
         },
         editRemark(){
@@ -165,6 +165,7 @@ export default {
                     this.contact.unread = false;
                     this.contact.lastMsg = null;
                     this.contact.lastMsgTime = new Date().getTime();
+                    this.contact.ownership = this.$store.getters.getUser.id;
                     this.remark = response.data.remark;
 
                     //刷新联系人列表缓存
@@ -192,7 +193,7 @@ export default {
                 }else{
                     throw response.msg;
                 }
-                
+
             })
             .catch(function (error) {
                 let myNotification = new Notification('失败',{
@@ -229,7 +230,7 @@ export default {
     position: relative;
     overflow: hidden;
     float: left;
-} 
+}
 
 .info .avator img{
     width: 60px;
@@ -239,7 +240,7 @@ export default {
 .info .infoDetails{
     margin: 0 20px ;
     margin-left: 80px;
-    
+
 }
 
 .info .infoDetails table td{

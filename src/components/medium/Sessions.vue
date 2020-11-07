@@ -40,10 +40,12 @@ export default {
     },
     methods:{
         loadFlowCom(index){
-            let receiver = this.$store.getters.getSessions[index];
-            receiver.unread = false;
-            this.$store.commit("setReceiver",receiver);
-            this.$emit("func","Flow"); 
+            let sessions = this.$store.getters.getSessions;
+            let session = sessions[index];
+            session.unread = false;
+            this.$set(sessions,index,session)
+            this.$store.commit("setReceiver",session);
+            this.$emit("func","Flow");
         }
     },
     filters:{

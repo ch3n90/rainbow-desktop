@@ -4,14 +4,14 @@ module.exports = {
       disableHostCheck: true,
         proxy: {
           '/rb': {
-            target: 'http://192.168.1.118:9090',
+            target: 'http://localhost:9090',
             changeOrigin: true,
             pathRewrite:{
                 '^/rb':''
             }
           },
           '/ws': {
-            target: 'http://192.168.1.118:6767',
+            target: 'http://localhost:6767',
             ws: true,
             changeOrigin: true,
             pathRewrite:{
@@ -19,7 +19,7 @@ module.exports = {
             }
           },
           '/oss': {
-            target: 'http://192.168.1.118:9000',
+            target: 'http://localhost:9000',
             changeOrigin: true,
             pathRewrite:{
                 '^/oss':'/oss'

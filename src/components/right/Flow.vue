@@ -165,15 +165,6 @@ export default {
                     let msgResp = resp.data;
                     this.$store.commit('addMessage',msgResp);
                     insertChat(msgResp);
-
-                    let sessions = this.$store.getters.getSessions;
-                    let session = sessions[msgResp.receiver]
-                    if(session){
-                        session.lastMsg = msgResp.content.txt;
-                        session.lastMsgTime = msgResp.date;
-                        sessionStorage.setItem("sessions",JSON.stringify(sessions));
-                    }
-
                 }else{
                     throw resp.msg;
                 }
