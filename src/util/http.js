@@ -4,7 +4,7 @@ import router from '../router/index'
 let token = sessionStorage.getItem("token");
 const uri = process.env.NODE_ENV === 'development'
 ? '/rb'
-: 'http://192.168.1.118/rb'
+: 'http://192.168.1.118:9090'
 
 const instance = axios.create({
     baseURL: uri,
