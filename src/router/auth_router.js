@@ -4,7 +4,6 @@ import Auth from '@/components/Auth'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import ResetPasswd from '@/components/ResetPasswd'
-import Chat from '@/components/Chat'
 import Loading from '@/components/Loading'
 
 Vue.use(Router)
@@ -36,10 +35,5 @@ export default new Router({
         }
       ]
     },
-    {
-      path:"/chat",
-      component:Chat
-    }
-  
   ]
 })

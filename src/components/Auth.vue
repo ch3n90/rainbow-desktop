@@ -20,9 +20,10 @@
 </template>
 
 <script>
-import Login from '@/components/Login'
+import Login from './Login'
 import 'vue2-animate/dist/vue2-animate.min.css'
- const {ipcRenderer,app,BrowserWindow} = require('electron')
+import "../assets/fonts/iconfont.css"
+const {ipcRenderer,app,BrowserWindow} = require('electron')
 
   export default {
     name: 'Auth',

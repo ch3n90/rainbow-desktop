@@ -8,22 +8,23 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+let chatWin
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-function createWindow () {
+function createAuthWindow () {
   // Create the browser window.
-  win = new BrowserWindow({
+  const authWin = new BrowserWindow({
     width: 330,
     height: 620,
     icon: path.join(__static, 'icon.png'),
     resizable:false,
     autoHideMenuBar:true,
     frame:false,
-    show:false,
+    // show:false,
     center:true,
     backgroundColor: '#222326',
     webPreferences: {
@@ -34,25 +35,54 @@ function createWindow () {
       // webSecurity:false,
     },
   });
-  
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    authWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) authWin.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    authWin.loadURL('app://./index.html')
   }
 
-  win.once('ready-to-show', () => {
-    win.show()
-})
+  return authWin;
 
-  win.on('closed', () => {
-    win = null
-  })
+}
+
+//defined chat window
+function createChatWindow () {
+  // Create the browser window.
+  const chatWin = new BrowserWindow({
+    width: 1000,
+    height: 800,
+    icon: path.join(__static, 'icon.png'),
+    resizable:false,
+    autoHideMenuBar:true,
+    frame:false,
+    // show:false,
+    center:true,
+    backgroundColor: '#222326',
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: true,
+      enableRemoteModule:true,
+      // webSecurity:false,
+    },
+  });
+ 
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    chatWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) chatWin.webContents.openDevTools()
+  } else {
+    createProtocol('app')
+    // Load the index.html when not in development
+    chatWin.loadURL('app://./index.html')
+  }
+
+  return chatWin;
 }
 
 // Quit when all windows are closed.
@@ -85,7 +115,8 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createWindow()
+  win = createAuthWindow();
+  // chatWin = createChatWindow();
 })
 
 ipcMain.on("auth-win-min",()=>{
@@ -97,15 +128,11 @@ win.close();
 })
 
 ipcMain.on("chat-win",()=>{
-  win.setSize(1000,800);
-  win.center();
-  win.setResizable(true);
+  console.log("-------");
 })
   
 ipcMain.on("login-win",()=>{
-  win.setSize(330,620);
-  win.center();
-  win.setResizable(false);
+  console.log("-------");
 })
   
 // tray

@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/auth_router'
-import store from './util/vuexx'
+import router from '../router/chat_router'
+// import Vuex from 'vuex'
+import store from '../util/vuexx'
+
+import WS from '../util/ws'
+
+Vue.use(WS)
 
 Vue.config.productionTip = false
 

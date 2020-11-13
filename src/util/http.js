@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from '../router/index'
+// import router from '../router/index'
 
 let token = sessionStorage.getItem("token");
 const uri = process.env.NODE_ENV === 'development'
@@ -24,7 +24,8 @@ instance.interceptors.request.use(function (config) {
 
 instance.interceptors.response.use(function (response) {
     if(response.data.code == 304){
-        router.replace({path:"/login"});
+      console.log("--------------")
+        // router.replace({path:"/login"});
     }
     return response.data;
   }, function (error) {

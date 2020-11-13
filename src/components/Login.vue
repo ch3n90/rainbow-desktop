@@ -19,8 +19,8 @@
                 <span :class="[statusOfMoreUser?'clickMoreUser moreUser iconfont icon-icon_sanjiaoxing':'moreUser iconfont icon-icon_sanjiaoxing']" @click.stop="moreUser"></span>
                 <input class="username-input" type="text" spellcheck="false" v-model="username">
                     <transition  name="fade"
-                    enter-active-class="fadeIn"
-                    leave-active-class="fadeOut" mode="out-in">
+                        enter-active-class="fadeIn"
+                        leave-active-class="fadeOut" mode="out-in">
                             <div v-show="statusOfMoreUser" class="otherUser">
                                 <div class="items" v-for="(item,index) in users" :key="index" @click.stop="selectUser(index)">
                                     <div class="item">
@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </transition>
+                    </transition>
             </div>
 
             <div class="password-div">
