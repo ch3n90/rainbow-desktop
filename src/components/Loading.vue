@@ -85,7 +85,6 @@ export default {
             }).then(sessions => {
                 this.$store.commit("setSessions",sessions);
                 ipcRenderer.send("chat-win");
-                this.$router.push({path:"/chat"});
             })
             .catch(function (error) {
                 let myNotification = new Notification('失败',{

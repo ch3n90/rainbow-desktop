@@ -32,7 +32,7 @@ function createAuthWindow () {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: true,
       enableRemoteModule:true,
-      // webSecurity:false,
+      webSecurity:false,
     },
   });
 
@@ -74,12 +74,13 @@ function createChatWindow () {
  
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    chatWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    console.log(process.env.WEBPACK_DEV_SERVER_URL);
+    chatWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL + "chatpage")
     if (!process.env.IS_TEST) chatWin.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    chatWin.loadURL('app://./index.html')
+    chatWin.loadURL('app://./chatpage.html')
   }
 
   return chatWin;
@@ -117,6 +118,7 @@ app.on('ready', async () => {
   }
   win = createAuthWindow();
   // chatWin = createChatWindow();
+  
 })
 
 ipcMain.on("auth-win-min",()=>{
@@ -128,7 +130,7 @@ win.close();
 })
 
 ipcMain.on("chat-win",()=>{
-  console.log("-------");
+  chatWin = createChatWindow();
 })
   
 ipcMain.on("login-win",()=>{

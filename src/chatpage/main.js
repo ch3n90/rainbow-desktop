@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Chat from './Chat'
 import router from '../router/chat_router'
 // import Vuex from 'vuex'
 import store from '../util/vuexx'
@@ -12,6 +12,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  render: h => h(App),
+  render: h => h(Chat),
   store
 }).$mount('#app')

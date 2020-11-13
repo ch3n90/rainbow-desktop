@@ -1,7 +1,7 @@
 module.exports = {
     pages: {
       index: 'src/main.js',
-      subpage: 'src/chatpage/main.js'
+      chatpage: 'src/chatpage/main.js'
     },
     lintOnSave:false,
     devServer: {
