@@ -1,8 +1,8 @@
 'use strict'
 
-import { app, protocol, BrowserWindow,ipcMain} from 'electron'
+import { app, protocol, BrowserWindow,ipcMain,Menu, Tray} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+const path = require('path')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -19,6 +19,7 @@ function createWindow () {
   win = new BrowserWindow({
     width: 330,
     height: 620,
+    icon: path.join(__static, 'icon.png'),
     resizable:false,
     autoHideMenuBar:true,
     frame:false,
@@ -30,9 +31,10 @@ function createWindow () {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: true,
       enableRemoteModule:true,
-      webSecurity:false,
+      // webSecurity:false,
     },
-  })
+  });
+  
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -106,6 +108,32 @@ ipcMain.on("login-win",()=>{
   win.setResizable(false);
 })
   
+// tray
+let appIcon = null
+
+ipcMain.on('put-in-tray', (event) => {
+  const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png'
+  const iconPath = path.join(__dirname, iconName)
+  appIcon = new Tray(iconPath)
+
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'Remove',
+    click: () => {
+      event.sender.send('tray-removed')
+    }
+  }])
+
+  appIcon.setToolTip('Electron Demo in the tray.')
+  appIcon.setContextMenu(contextMenu)
+})
+
+ipcMain.on('remove-tray', () => {
+  appIcon.destroy()
+})
+
+app.on('window-all-closed', () => {
+  if (appIcon) appIcon.destroy()
+})
 
 
 // Exit cleanly on request from parent process in development mode.
