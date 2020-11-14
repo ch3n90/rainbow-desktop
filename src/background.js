@@ -98,6 +98,15 @@ function createChatWindow () {
     chatWin.show()
   })
 
+  chatWin.on("focus",(event) => {
+    if(timer){
+      clearInterval(timer);
+      appIcon.setImage(iconPath);
+      timer = null;
+    }
+    
+  })
+
   return chatWin;
 }
 
@@ -157,19 +166,23 @@ let appIcon,timer,count = 0;
 const iconName = process.platform === 'win32' ? 'icon.png' : 'iconTemplate.png'
 const iconPath = path.join(__static, iconName)
 ipcMain.on('put-in-tray', (event) => {
-  appIcon = new Tray(iconPath)
-  const contextMenu = Menu.buildFromTemplate([{
-    label: '退出',
-            click: () => {
-              app.quit();
-            }
-  }])
-  appIcon.on('click',()=> {
-    chatWin.show();
-  })
+ 
+  if(!appIcon || appIcon.isDestroyed()){
+    appIcon = new Tray(iconPath)
+    const contextMenu = Menu.buildFromTemplate([{
+      label: '退出',
+              click: () => {
+                app.quit();
+              }
+    }])
+    appIcon.on('click',()=> {
+      chatWin.show();
+    })
 
-  appIcon.setToolTip('rainbow')
-  appIcon.setContextMenu(contextMenu)
+    appIcon.setToolTip('rainbow')
+    appIcon.setContextMenu(contextMenu)
+  }
+  
 })
 
 ipcMain.on('remove-tray', () => {
@@ -178,14 +191,16 @@ ipcMain.on('remove-tray', () => {
 
 // 渲染线程通知，有新的消息
 ipcMain.on('msg', (event,arg) => {
-  timer = setInterval(() => {
-    count += 1
-    if (count % 2 === 0) {
-      appIcon.setImage(iconPath)
-    } else {
-      appIcon.setImage(nativeImage.createEmpty())
-    }
-  }, 600)
+  if(!timer){
+    timer = setInterval(() => {
+      count += 1
+      if (count % 2 === 0) {
+        appIcon.setImage(iconPath)
+      } else {
+        appIcon.setImage(nativeImage.createEmpty())
+      }
+    }, 600)
+  }
 })
 
 

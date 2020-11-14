@@ -40,7 +40,7 @@ const remote = require('electron').remote
       },
       methods:{
         close(){
-          remote.getCurrentWindow().hide();
+          remote.getCurrentWindow().close();
         },
         minimize(){
           remote.getCurrentWindow().minimize();

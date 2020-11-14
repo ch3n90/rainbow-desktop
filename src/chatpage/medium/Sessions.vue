@@ -41,7 +41,6 @@ export default {
     },
     methods:{
         loadFlowCom(index){
-            console.log(index)
             let sessions = this.$store.getters.getSessions;
             let session = sessions[index];
             session.unread = false;

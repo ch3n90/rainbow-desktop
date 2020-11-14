@@ -1,14 +1,29 @@
-import { Session } from 'electron';
-
 const {insertSessions} = require('../repsitory/sessions')
 const {insertChat} = require('../repsitory/chats')
+const remote = require('electron').remote
+const {ipcRenderer} = require('electron')
 
 let handler = {
 
+    msgChain:(body,vue) => {
+        let sessions = vue.$store.getters.getSessions;
+        handler[body['msgType']](body,vue,sessions);
+        //sort sessions
+        sessions.sort((a,b) => {
+            return b.lastMsgTime - a.lastMsgTime;
+        });
+        vue.$store.commit("setSessions",sessions);
+        //cache chat mssage to db
+        insertChat(body);
+        // window is focus
+        if(remote.getCurrentWindow().isFocused){
+            ipcRenderer.send("msg");
+        }
+    },
     /**
      * 文本消息
      */
-    1:(body,vue) => {
+    1:(body,vue,sessions) => {
         let curReceiver =  vue.$store.getters.getReceiver;
         //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
@@ -16,8 +31,6 @@ let handler = {
                 vue.$store.commit('addMessage',body);
             }
         }
-
-        let sessions = vue.$store.getters.getSessions;
         let i ;
         let session = sessions.find((session,index) => {
             i = index;
@@ -43,18 +56,11 @@ let handler = {
             }
             vue.$set(sessions,i,session);
         }
-
-        sessions.sort((a,b) => {
-            return b.lastMsgTime - a.lastMsgTime;
-        });
-        vue.$store.commit("setSessions",sessions);
-        insertChat(body);
-        
     },
     /**
      * 图片消息
      */
-    2:(body,vue) => {
+    2:(body,vue,sessions) => {
         let curReceiver =  vue.$store.getters.getReceiver;
         //当前消息的接收者是否是当前选择的接收者
         if(curReceiver){
@@ -63,7 +69,6 @@ let handler = {
             }
         }
 
-        let sessions = vue.$store.getters.getSessions;
         let i ;
         let session = sessions.find((session,index) => {
             i = index;
@@ -89,12 +94,6 @@ let handler = {
             }
             vue.$set(sessions,i,session);
         }
-        sessions.sort((a,b) => {
-            return b.lastMsgTime - a.lastMsgTime;
-        });
-        vue.$store.commit("setSessions",sessions);
-        insertChat(body);
-        
     },
     /**
      * 添加好友消息
@@ -121,7 +120,7 @@ let handler = {
             userId:body.sender,
             username:body.content.username,
         }
-        vue.$store.getters.getContacts.push(contact);        // vue.$store.commit("setContactUnread",true);
+        vue.$store.getters.getContacts.push(contact);
     }
 
 }

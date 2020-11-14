@@ -101,7 +101,7 @@ export default {
             this.$ws.connection(
                 this.$store.getters.getUser,
                 body => {
-                    MessageHandler[body['msgType']](body,this);
+                    MessageHandler.msgChain(body,this);
                 },err =>{
                     setTimeout(() => {
                         console.log("re connection")
