@@ -1,6 +1,6 @@
 import SockJS from  'sockjs-client';
 import Stomp from 'stompjs';
-
+const remote = require('electron').remote
 let WS = {
     stompClient:null,
 };
@@ -10,7 +10,7 @@ WS.install = function(Vue){
 
         connection: (user,SUCCESS,ERROR)=> {
             // 建立连接对象
-            let token = sessionStorage.getItem("token");
+            let token =remote.getGlobal('cache').token;
             let cid =  localStorage.getItem("cid");
 
             let socket = new SockJS('/ws/rainbow-ws?sid='+token+"&cid="+cid);

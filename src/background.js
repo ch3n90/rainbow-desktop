@@ -7,8 +7,15 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let authWin
 let chatWin
+
+global.cache = {
+  token: null,
+  user: null,
+  contacts:null,
+  sessions:null,
+}
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -46,6 +53,11 @@ function createAuthWindow () {
     authWin.loadURL('app://./index.html')
   }
 
+
+  authWin.once('ready-to-show', () => {
+    authWin.show()
+  })
+
   return authWin;
 
 }
@@ -60,7 +72,7 @@ function createChatWindow () {
     resizable:false,
     autoHideMenuBar:true,
     frame:false,
-    // show:false,
+    show:false,
     center:true,
     backgroundColor: '#222326',
     webPreferences: {
@@ -74,7 +86,6 @@ function createChatWindow () {
  
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    console.log(process.env.WEBPACK_DEV_SERVER_URL);
     chatWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL + "chatpage")
     if (!process.env.IS_TEST) chatWin.webContents.openDevTools()
   } else {
@@ -82,6 +93,10 @@ function createChatWindow () {
     // Load the index.html when not in development
     chatWin.loadURL('app://./chatpage.html')
   }
+
+  chatWin.once('ready-to-show', () => {
+    chatWin.show()
+  })
 
   return chatWin;
 }
@@ -99,8 +114,11 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
+  if (authWin.isDestroyed()) {
+    authWin = createAuthWindow();
+  }
+  if (chatWin.isDestroyed()) {
+    chatWin = createChatWindow();
   }
 })
 
@@ -116,25 +134,22 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  win = createAuthWindow();
-  // chatWin = createChatWindow();
-  
+  authWin = createAuthWindow();
 })
 
-ipcMain.on("auth-win-min",()=>{
-  win.minimize();
-})
-
-ipcMain.on("auth-win-close",()=>{
-win.close();
-})
 
 ipcMain.on("chat-win",()=>{
+  //init chat panel
   chatWin = createChatWindow();
+  //close auth panel
+  authWin.destroy();
+  authWin = null;
 })
   
-ipcMain.on("login-win",()=>{
-  console.log("-------");
+ipcMain.on("auth-win",()=>{
+  authWin = createAuthWindow();
+  chatWin.destroy();
+  chatWin = null;
 })
   
 // tray

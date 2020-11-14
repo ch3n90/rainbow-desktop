@@ -1,19 +1,21 @@
 import axios from 'axios'
 // import router from '../router/index'
+const remote = require('electron').remote
 
-let token = sessionStorage.getItem("token");
-const uri = process.env.NODE_ENV === 'development'
-? '/rb'
-: 'http://192.168.1.118:9090'
+
+let token;
+const uri = process.env.NODE_ENV === 'development' ? '/rb' : 'http://192.168.1.118:9090'
 
 const instance = axios.create({
     baseURL: uri,
     timeout: 10000
 });
 
+
+
 instance.interceptors.request.use(function (config) {
     if(!token){
-      token = sessionStorage.getItem("token");
+      token =remote.getGlobal('cache').token;
     }
     config.headers.authorization = "berarer " + token;
     return config;

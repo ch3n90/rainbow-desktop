@@ -59,7 +59,7 @@
 
 
 <script>
-import "@/assets/fonts/iconfont.css"
+import "../assets/fonts/iconfont.css"
 
 // import right
 import AddContact from './right/AddContact'
@@ -75,7 +75,7 @@ import Contacts from './medium/Contacts'
 import Settings from './medium/Settings'
 
 import MessageHandler from '../util/messageHandler'
-const {ipcRenderer,app,BrowserWindow} = require('electron')
+const remote = require('electron').remote
 export default {
     name:"Chat",
     data(){
@@ -141,13 +141,17 @@ export default {
             this.loadChats();
         },
         close(){
-        ipcRenderer.send("auth-win-close")
+            remote.getCurrentWindow().close();
         },
         minimize(){
-          ipcRenderer.send("auth-win-min")
+          remote.getCurrentWindow().minimize();
         }
     },
     created(){
+        this.$store.commit("setUser",remote.getGlobal('cache').user);
+        this.$store.commit("setContacts",remote.getGlobal('cache').contacts);
+        this.$store.commit("setSessions",remote.getGlobal('cache').sessions);
+
         this.connection();
     },
 

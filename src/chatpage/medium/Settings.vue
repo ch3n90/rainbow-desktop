@@ -40,8 +40,7 @@ export default {
             this.$emit("func","Security");
         },
         exit(){
-            ipcRenderer.send("login-win");
-            this.$router.push({path:"/"});
+            ipcRenderer.send("auth-win");
         }
     }
 }

@@ -23,6 +23,7 @@
 
 <script>
 const {ipcRenderer, session} = require('electron')
+const remote = require('electron').remote
 import HttpApi from '@/util/http.js'
 
 // const md5 = require('md5');
@@ -40,7 +41,8 @@ export default {
             .then(response => {
                 if(response.code == 200){
                     const token = response.data;
-                    sessionStorage.setItem("token",token);
+                    //cache global token 
+                    remote.getGlobal('cache').token = token;
                     let parts = token.split(".");
 					if (parts.length == 2 && token.endsWith(".")) {
                         parts = [parts[0],parts[1],""];
@@ -61,7 +63,8 @@ export default {
                     if(response.code == 200){
                         user.property = response.data;
                         user.lastLoginTime = new Date().getTime();
-                        this.$store.commit('setUser',user);
+                        //cache global user;
+                        remote.getGlobal('cache').user = user;
                         if(user.rememberMe){
                             insertUser(user);
                         }else{
@@ -76,14 +79,16 @@ export default {
                 if(response){
                     if(response.code === 200){
                         const data = response.data;
-                        this.$store.commit("setContacts",data);
+                         //cache global contacts;
+                        remote.getGlobal('cache').contacts = data;
                         return querySessions();
                     }else{
                         throw response.msg
                     }
                 }
             }).then(sessions => {
-                this.$store.commit("setSessions",sessions);
+                //cache global sessions;
+                remote.getGlobal('cache').sessions = sessions;
                 ipcRenderer.send("chat-win");
             })
             .catch(function (error) {

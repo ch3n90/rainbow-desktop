@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Chat from './Chat'
-import router from '../router/chat_router'
-// import Vuex from 'vuex'
+import router from '../router/chatRouter'
 import store from '../util/vuexx'
 
 import WS from '../util/ws'

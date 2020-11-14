@@ -23,8 +23,8 @@
 import Login from './Login'
 import 'vue2-animate/dist/vue2-animate.min.css'
 import "../assets/fonts/iconfont.css"
-const {ipcRenderer,app,BrowserWindow} = require('electron')
-
+// const {ipcRenderer,app,BrowserWindow} = require('electron')
+const remote = require('electron').remote
   export default {
     name: 'Auth',
     render:function(c){
@@ -40,10 +40,10 @@ const {ipcRenderer,app,BrowserWindow} = require('electron')
       },
       methods:{
         close(){
-        ipcRenderer.send("auth-win-close")
+          remote.getCurrentWindow().hide();
         },
         minimize(){
-          ipcRenderer.send("auth-win-min")
+          remote.getCurrentWindow().minimize();
         }
       }
     }
