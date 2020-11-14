@@ -1,3 +1,4 @@
+import { Session } from 'electron';
 
 const {insertSessions} = require('../repsitory/sessions')
 const {insertChat} = require('../repsitory/chats')
@@ -17,27 +18,15 @@ let handler = {
         }
 
         let sessions = vue.$store.getters.getSessions;
-        let session = null;
-        let i = 0;
-        for(;i<sessions.length; i++){
-            if(sessions[i]['userId'] == body['sender']){
-                session = sessions[i];
-                break;
-            }
-        }
+        let session = sessions[body.sender];
         if(!session){
             let contacts = vue.$store.getters.getContacts;
-            for(let i=0;i<contacts.length; i++){
-                if(contacts[i].userId == body.sender){
-                    session = contacts[i];
-                    break;
-                }
-            }
+            session = contacts[body.sender]
             session.unread = true;
             session.lastMsg = body.content.txt;
             session.ownership = vue.$store.getters.getUser.id;
             session.lastMsgTime = body.date;
-            sessions.push(session);
+            sessions[session.userId] = session;
             insertSessions(session);
         }else{
             session.lastMsg = body.content.txt;
@@ -45,7 +34,7 @@ let handler = {
             if(curReceiver && session.userId != curReceiver.userId){
                 session.unread = true;
             }
-            vue.$set(sessions,i,session);
+            vue.$set(sessions,session.userId,session);
         }
         insertChat(body);
     },

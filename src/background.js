@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow,ipcMain,Menu, Tray} from 'electron'
+import { app, protocol, BrowserWindow,ipcMain,Menu,Tray,nativeImage} from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 const path = require('path')
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -153,20 +153,17 @@ ipcMain.on("auth-win",()=>{
 })
   
 // tray
-let appIcon = null
-
+let appIcon,timer,count = 0;
+const iconName = process.platform === 'win32' ? 'icon.png' : 'iconTemplate.png'
+const iconPath = path.join(__static, iconName)
 ipcMain.on('put-in-tray', (event) => {
-  const iconName = process.platform === 'win32' ? 'icon.png' : 'iconTemplate.png'
-  const iconPath = path.join(__static, iconName)
   appIcon = new Tray(iconPath)
-
   const contextMenu = Menu.buildFromTemplate([{
     label: '退出',
             click: () => {
               app.quit();
             }
   }])
-
   appIcon.on('click',()=> {
     chatWin.show();
   })
@@ -178,6 +175,19 @@ ipcMain.on('put-in-tray', (event) => {
 ipcMain.on('remove-tray', () => {
   appIcon.destroy()
 })
+
+// 渲染线程通知，有新的消息
+ipcMain.on('msg', (event,arg) => {
+  timer = setInterval(() => {
+    count += 1
+    if (count % 2 === 0) {
+      appIcon.setImage(iconPath)
+    } else {
+      appIcon.setImage(nativeImage.createEmpty())
+    }
+  }, 600)
+})
+
 
 app.on('window-all-closed', () => {
   if (appIcon) appIcon.destroy()

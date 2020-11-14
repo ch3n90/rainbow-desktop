@@ -53,7 +53,6 @@ import HttpApi  from '../../util/http'
 import { Picker } from 'emoji-mart-vue'
 const {queryChats,insertChat} = require('../../repsitory/chats')
 const {updateLastMsgTimeAndLastMsgContentById} = require('../../repsitory/sessions')
-
 export default {
     name:"Flow",
     data(){
@@ -152,7 +151,6 @@ export default {
             if(!this.msg){
                 return;
             }
-
             let message = {
                 msgType:1,
                 content: {
@@ -167,19 +165,14 @@ export default {
                     this.$store.commit('addMessage',msgResp);
                     ////////////////////////////////////////////////
                     let sessions = this.$store.getters.getSessions;
-                    let session = null;
-                    let i = 0;
-                    for(;i<sessions.length; i++){
-                        if(sessions[i]['userId'] === msgResp['receiver']){
-                            session = sessions[i];
-                            break;
-                        }
-                    }
+                    let session = sessions[msgResp['receiver']];
                     session.lastMsgTime = msgResp.date;
                     session.lastMsg = msgResp.content.txt;
+                    // this.$set(session,userId,session);
+                    // this.$store.commit("addSession",session);
                     ////////////////////////////////////////////////
                     insertChat(msgResp);
-                    updateLastMsgTimeAndLastMsgContentById(msgResp.date,msgResp.content.txt,false)
+                    updateLastMsgTimeAndLastMsgContentById(msgResp.date,msgResp.content.txt,false,msgResp.receiver);
                 }else{
                     throw resp.msg;
                 }

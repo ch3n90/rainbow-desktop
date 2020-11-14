@@ -5,7 +5,9 @@ function insert(doc){
 }
 
 function query(ownership){
-    return db.sessions.where('ownership').equals(ownership).toArray();
+    return db.sessions.where('ownership').equals(ownership).reverse().sortBy('lastMsgTime',array => {
+        return array;
+    })
 }
 
 function updateLastMsgTimeAndLastMsgContentById(lastMsgTime,lastMsgContent,unread,userId){

@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
       session:[],
-      sessions: [],
-      contacts:[],
+      sessions: {},
+      contacts:{},
       user:{},
       receiver:{},
       contact:{},
@@ -21,16 +21,7 @@ export default new Vuex.Store({
         state.sessions = sessions;
       },
       addSession(state,session){
-        let flag = true;
-        for(var i=0;i<state.sessions.length;i++){
-          if(state.sessions[i].userId === session.userId){
-            flag = false;
-            break;
-          }
-        }
-        if(flag){
-          state.sessions.unshift(session);
-        }
+        state.sessions[session.userId] = session;
       },
       setContacts(state,contacts){
         state.contacts = contacts;

@@ -78,19 +78,32 @@ export default {
             }).then(response => {
                 if(response){
                     if(response.code === 200){
-                        const data = response.data;
+                        let cotnacts = response.data;
+                        let cacheContacts = {};
+                        if(cotnacts){
+                            for(let i=0; i<cotnacts.length; i++){
+                                let contact = cotnacts[i];
+                                cacheContacts[contact.userId] = contact;
+                            }
+                        }
                          //cache global contacts;
-                        remote.getGlobal('cache').contacts = data;
-                        return querySessions();
+                        remote.getGlobal('cache').contacts = cacheContacts;
+                        return querySessions(user.id);
                     }else{
                         throw response.msg
                     }
                 }
             }).then(sessions => {
                 //cache global sessions;
-                remote.getGlobal('cache').sessions = sessions;
+                let cacheSessions = {};
+                if(sessions){
+                    for(let i=0; i<sessions.length; i++){
+                        let session = sessions[i];
+                        cacheSessions[session.userId] = session;
+                    }
+                }
+                remote.getGlobal('cache').sessions = cacheSessions;
                 ipcRenderer.send("chat-win");
-                
             })
             .catch(function (error) {
                 let myNotification = new Notification('失败',{
@@ -98,12 +111,8 @@ export default {
                     silent: true,
                 });
             });
-
-           
        },500)
    }
-   
-
 }
 </script>
 

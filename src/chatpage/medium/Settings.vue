@@ -29,7 +29,8 @@
 
 
 <script>
-const {ipcRenderer, session} = require('electron')
+const {ipcRenderer} = require('electron')
+const remote = require('electron').remote
 export default {
     name:"Settings",
     methods:{
@@ -40,6 +41,10 @@ export default {
             this.$emit("func","Security");
         },
         exit(){
+            remote.getGlobal('cache').user = null;
+            remote.getGlobal('cache').contacts = null;
+            remote.getGlobal('cache').sessions = null;
+            remote.getGlobal('cache').token = null;
             ipcRenderer.send("auth-win");
         }
     }
