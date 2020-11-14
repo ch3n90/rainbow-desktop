@@ -18,7 +18,6 @@
     "dexie": "^3.0.2",
     "electron": "latest",
     "emoji-mart-vue": "^2.6.6",
-    "md5": "^2.3.0",
     "sockjs-client": "^1.5.0",
     "stompjs": "^2.3.3",
     "vue": "^2.6.11",

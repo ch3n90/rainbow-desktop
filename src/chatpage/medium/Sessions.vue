@@ -6,8 +6,8 @@
         <div class="blank">
         </div>
         <div class="list">
-            <div v-for="(item,key) in $store.getters.getSessions" :key="key"
-                @click.stop="loadFlowCom(key)"
+            <div v-for="(item,index) in $store.getters.getSessions" :key="item.userId"
+                @click.stop="loadFlowCom(index)"
                 :class="item.userId === $store.getters.getReceiver.userId ? 'select':''">
                 <div>
                     <div class="contactAvator">
@@ -40,11 +40,12 @@ export default {
         }
     },
     methods:{
-        loadFlowCom(key){
+        loadFlowCom(index){
+            console.log(index)
             let sessions = this.$store.getters.getSessions;
-            let session = sessions[key];
+            let session = sessions[index];
             session.unread = false;
-            this.$set(sessions,key,session)
+            this.$set(sessions,index,session)
             this.$store.commit("setReceiver",session);
             this.$emit("func","Flow");
         }

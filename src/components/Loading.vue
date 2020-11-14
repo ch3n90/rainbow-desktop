@@ -79,15 +79,9 @@ export default {
                 if(response){
                     if(response.code === 200){
                         let cotnacts = response.data;
-                        let cacheContacts = {};
-                        if(cotnacts){
-                            for(let i=0; i<cotnacts.length; i++){
-                                let contact = cotnacts[i];
-                                cacheContacts[contact.userId] = contact;
-                            }
-                        }
+                        
                          //cache global contacts;
-                        remote.getGlobal('cache').contacts = cacheContacts;
+                        remote.getGlobal('cache').contacts = cotnacts;
                         return querySessions(user.id);
                     }else{
                         throw response.msg
@@ -95,14 +89,7 @@ export default {
                 }
             }).then(sessions => {
                 //cache global sessions;
-                let cacheSessions = {};
-                if(sessions){
-                    for(let i=0; i<sessions.length; i++){
-                        let session = sessions[i];
-                        cacheSessions[session.userId] = session;
-                    }
-                }
-                remote.getGlobal('cache').sessions = cacheSessions;
+                remote.getGlobal('cache').sessions = sessions;
                 ipcRenderer.send("chat-win");
             })
             .catch(function (error) {

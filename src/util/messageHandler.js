@@ -18,15 +18,22 @@ let handler = {
         }
 
         let sessions = vue.$store.getters.getSessions;
-        let session = sessions[body.sender];
+        let i ;
+        let session = sessions.find((session,index) => {
+            i = index;
+            return session.userId === body.sender;
+        })
         if(!session){
             let contacts = vue.$store.getters.getContacts;
-            session = contacts[body.sender]
+            session = contacts.find(session => {
+                return session.userId === body.sender;
+            })
             session.unread = true;
             session.lastMsg = body.content.txt;
             session.ownership = vue.$store.getters.getUser.id;
             session.lastMsgTime = body.date;
-            sessions[session.userId] = session;
+
+            sessions.unshift(session);
             insertSessions(session);
         }else{
             session.lastMsg = body.content.txt;
@@ -34,9 +41,15 @@ let handler = {
             if(curReceiver && session.userId != curReceiver.userId){
                 session.unread = true;
             }
-            vue.$set(sessions,session.userId,session);
+            vue.$set(sessions,i,session);
         }
+
+        sessions.sort((a,b) => {
+            return b.lastMsgTime - a.lastMsgTime;
+        });
+        vue.$store.commit("setSessions",sessions);
         insertChat(body);
+        
     },
     /**
      * 图片消息
@@ -51,27 +64,22 @@ let handler = {
         }
 
         let sessions = vue.$store.getters.getSessions;
-        let session = null;
-        let i = 0;
-        for(;i<sessions.length; i++){
-            if(sessions[i]['userId'] == body['sender']){
-                session = sessions[i];
-                break;
-            }
-        }
+        let i ;
+        let session = sessions.find((session,index) => {
+            i = index;
+            return session.userId === body.sender;
+        })
         if(!session){
             let contacts = vue.$store.getters.getContacts;
-            for(let i=0;i<contacts.length; i++){
-                if(contacts[i].userId == body.sender){
-                    session = contacts[i];
-                    break;
-                }
-            }
+            session = contacts.find(session => {
+                return session.userId === body.sender;
+            })
             session.unread = true;
             session.lastMsg = '[图片]';
             session.ownership = vue.$store.getters.getUser.id;
             session.lastMsgTime = body.date;
-            sessions.push(session);
+
+            sessions.unshift(session);
             insertSessions(session);
         }else{
             session.lastMsg = '[图片]';
@@ -81,7 +89,12 @@ let handler = {
             }
             vue.$set(sessions,i,session);
         }
+        sessions.sort((a,b) => {
+            return b.lastMsgTime - a.lastMsgTime;
+        });
+        vue.$store.commit("setSessions",sessions);
         insertChat(body);
+        
     },
     /**
      * 添加好友消息

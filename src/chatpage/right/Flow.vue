@@ -165,11 +165,18 @@ export default {
                     this.$store.commit('addMessage',msgResp);
                     ////////////////////////////////////////////////
                     let sessions = this.$store.getters.getSessions;
-                    let session = sessions[msgResp['receiver']];
-                    session.lastMsgTime = msgResp.date;
-                    session.lastMsg = msgResp.content.txt;
-                    // this.$set(session,userId,session);
-                    // this.$store.commit("addSession",session);
+                    sessions.some((session,index,array) => {
+                        if(session.userId === msgResp['receiver']){
+                            session.lastMsgTime = msgResp.date;
+                            session.lastMsg = msgResp.content.txt;
+                            this.$set(sessions,index, session);
+                            return true;
+                        }
+                    });
+                    sessions.sort((a,b) => {
+                        return b.lastMsgTime - a.lastMsgTime;
+                    })
+                    this.$store.commit("setSessions",sessions);
                     ////////////////////////////////////////////////
                     insertChat(msgResp);
                     updateLastMsgTimeAndLastMsgContentById(msgResp.date,msgResp.content.txt,false,msgResp.receiver);
