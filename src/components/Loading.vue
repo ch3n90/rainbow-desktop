@@ -90,6 +90,7 @@ export default {
                 //cache global sessions;
                 remote.getGlobal('cache').sessions = sessions;
                 ipcRenderer.send("chat-win");
+                
             })
             .catch(function (error) {
                 let myNotification = new Notification('失败',{

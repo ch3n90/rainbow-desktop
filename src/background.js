@@ -156,18 +156,22 @@ ipcMain.on("auth-win",()=>{
 let appIcon = null
 
 ipcMain.on('put-in-tray', (event) => {
-  const iconName = process.platform === 'win32' ? 'windows-icon.png' : 'iconTemplate.png'
-  const iconPath = path.join(__dirname, iconName)
+  const iconName = process.platform === 'win32' ? 'icon.png' : 'iconTemplate.png'
+  const iconPath = path.join(__static, iconName)
   appIcon = new Tray(iconPath)
 
   const contextMenu = Menu.buildFromTemplate([{
-    label: 'Remove',
-    click: () => {
-      event.sender.send('tray-removed')
-    }
+    label: '退出',
+            click: () => {
+              app.quit();
+            }
   }])
 
-  appIcon.setToolTip('Electron Demo in the tray.')
+  appIcon.on('click',()=> {
+    chatWin.show();
+  })
+
+  appIcon.setToolTip('rainbow')
   appIcon.setContextMenu(contextMenu)
 })
 

@@ -75,6 +75,7 @@ import Contacts from './medium/Contacts'
 import Settings from './medium/Settings'
 
 import MessageHandler from '../util/messageHandler'
+const {ipcRenderer} = require('electron')
 const remote = require('electron').remote
 export default {
     name:"Chat",
@@ -141,10 +142,10 @@ export default {
             this.loadChats();
         },
         close(){
-            remote.getCurrentWindow().close();
+            remote.getCurrentWindow().hide();
         },
         minimize(){
-          remote.getCurrentWindow().minimize();
+            remote.getCurrentWindow().minimize();
         }
     },
     created(){
@@ -157,6 +158,9 @@ export default {
 
     beforeDestroy(){
         this.$ws.disConnection();
+    },
+    beforeMount(){
+         ipcRenderer.send("put-in-tray");
     },
 
     components:{
