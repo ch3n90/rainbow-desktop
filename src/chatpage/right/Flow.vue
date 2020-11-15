@@ -9,8 +9,10 @@
                     <img class="avatar" v-bind:src="receiver.avatar" alt="">
                         <div>
                             <span>{{item.date | format}}</span>
-                            <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                            <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
+                            <div class='text' v-if="item.msgType == 1">
+                                {{item.content.txt}}
+                            </div>
+                            <div v-else-if="item.msgType == 2">
                                 <img :src="item.content.uri"
                                 :width="item.content.width | imgW"
                                 :height="item.content.height | imgH(item.content.width)"/>
@@ -20,8 +22,10 @@
                 <div class="bubble" v-else>
                     <div>
                         <span>{{item.date | format}}</span>
-                        <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                        <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
+                        <div class="text" v-if="item.msgType == 1">
+                            {{item.content.txt}}
+                        </div>
+                        <div v-else-if="item.msgType == 2">
                             <img :src="item.content.uri"
                             :width="item.content.width | imgW"
                             :height="item.content.height | imgH(item.content.width)"/>
@@ -297,8 +301,10 @@ export default {
 
 .right .content{
     position: absolute;
+    background-color: #fff;
     top: 35px;
     bottom: 120px;
+    width: 100%;
     overflow-y:scroll;
 }
 
@@ -308,7 +314,6 @@ export default {
 
 .content .me .bubble{
     display: flex;
-    display: -webkit-flex;
     flex-direction: row;
     justify-content: flex-end;
 }
@@ -317,7 +322,7 @@ export default {
     padding: 0 5px;
 }
 
-.content .me > .bubble > div > div{
+.content .me > .bubble > div .text{
     max-width: 60%;
     min-width: 80px;
     margin: 5px 5px 0 0;
@@ -325,9 +330,9 @@ export default {
     word-wrap:break-word;
     word-break:break-all;
     border-radius: 20px 0 20px 20px;
-    background-color: #25B6D1;
+    background-color: #F1F1F4;
     padding: 5px 10px;
-    color: white;
+    /* color: white; */
     float: right;
 }
 
@@ -344,20 +349,20 @@ export default {
 .content .you .bubble{
     width: 100%;
     padding: 5px 0;
-    display: -webkit-flex;
+    display: flex;
     justify-content: flex-start;
 }
 .content .you >.bubble > div{
     padding: 0 5px;
 }
-.content .you >.bubble > div > div{
+.content .you >.bubble > div .text{
     max-width: 60%;
     min-width: 80px;
     font-size: 14px;
     word-wrap:break-word;
     word-break:break-all;
     border-radius: 0 20px 20px 20px;
-    background-color: #2DCB70;
+     background: linear-gradient(70deg, #EB704A, #EEB601);
     padding: 5px 10px;
     color: white;
 }

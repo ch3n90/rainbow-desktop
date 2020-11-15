@@ -132,22 +132,23 @@ export default {
                     this.contact.remark = this.remark;
                     //修改联系人列表信息
                     let contacts = this.$store.getters.getContacts;
-                    for(let contact of contacts){
+                    contacts.some((contact,index,array) => {
                         if(contactId === contact.userId){
                             contact.remark = this.remark;
-                            break;
+                            return true;
                         }
-                    }
+                    });
                     //刷新会话列表
-                    let sessions = sessionStorage.getItem("sessions");
-                    if(sessions){
-                        sessions = JSON.parse(sessions);
-                        let contact = sessions[this.contact.userId];
-                        if(contact){
-                            contact.remark = this.remark;
-                            sessionStorage.setItem("sessions",JSON.stringify(sessions));
+                    let sessions = this.$store.getters.getSessions;
+                    sessions.some((session,index,array) => {
+                        if(session.userId === this.contact.userId){
+                            session.remark = this.remark;
+                            //刷新数据库
+                            
+                            return true;
                         }
-                    }
+                    });
+                    
                 }
             })
             .catch(function (error) {
