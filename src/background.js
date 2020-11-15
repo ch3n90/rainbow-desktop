@@ -41,7 +41,7 @@ function createAuthWindow () {
       nodeIntegration: true,
       enableRemoteModule:true,
       webSecurity:false,
-      // devTools:isDevelopment,
+      devTools:isDevelopment,
     },
   });
 
@@ -83,7 +83,7 @@ function createChatWindow () {
       nodeIntegration: true,
       enableRemoteModule:true,
       webSecurity:false,
-      // devTools:isDevelopment,
+      devTools:isDevelopment,
     },
   });
  
@@ -166,7 +166,7 @@ ipcMain.on("auth-win",()=>{
   
 // tray
 let appIcon,timer,count = 0;
-const iconName = process.platform === 'win32' ? 'icon.png' : 'iconTemplate.png'
+const iconName = process.platform === 'win32' ? 'icon.png' : 'icon.png'
 const iconPath = path.join(__static, iconName)
 ipcMain.on('put-in-tray', (event) => {
  
