@@ -1,6 +1,6 @@
 # rainbow-desktop
 
-rainbow-dektop是一个实现rainbow IM系统的桌面客户端程序。
+rainbow-desktop是一个实现rainbow IM系统的桌面客户端程序。
 
 ## 介绍
 

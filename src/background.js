@@ -41,7 +41,7 @@ function createAuthWindow () {
       nodeIntegration: true,
       enableRemoteModule:true,
       webSecurity:false,
-      devTools:isDevelopment,
+      // devTools:isDevelopment,
     },
   });
 
@@ -83,7 +83,7 @@ function createChatWindow () {
       nodeIntegration: true,
       enableRemoteModule:true,
       webSecurity:false,
-      devTools:isDevelopment,
+      // devTools:isDevelopment,
     },
   });
  

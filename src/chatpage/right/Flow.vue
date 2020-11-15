@@ -12,7 +12,7 @@
                             <div class='text' v-if="item.msgType == 1">
                                 {{item.content.txt}}
                             </div>
-                            <div v-else-if="item.msgType == 2">
+                            <div class="img" v-else-if="item.msgType == 2">
                                 <img :src="item.content.uri"
                                 :width="item.content.width | imgW"
                                 :height="item.content.height | imgH(item.content.width)"/>
@@ -26,7 +26,7 @@
                             {{item.content.txt}}
                         </div>
                         <div v-else-if="item.msgType == 2">
-                            <img :src="item.content.uri"
+                            <img class="img" :src="item.content.uri"
                             :width="item.content.width | imgW"
                             :height="item.content.height | imgH(item.content.width)"/>
                         </div>
@@ -321,11 +321,13 @@ export default {
 
 .content .me > .bubble > div{
     padding: 0 5px;
+    width: 100%;
 }
 
 .content .me > .bubble > div .text{
     max-width: 60%;
     min-width: 80px;
+    width: fit-content;
     margin: 5px 5px 0 0;
     font-size: 14px;
     word-wrap:break-word;
@@ -333,9 +335,17 @@ export default {
     border-radius: 20px 0 20px 20px;
     background-color: #F1F1F4;
     padding: 5px 10px;
-    /* color: white; */
     float: right;
 }
+
+.content .me > .bubble > div .img{
+    max-width: 60%;
+    min-width: 80px;
+    margin: 5px 5px 0 0;
+    float: right;
+}
+
+
 
 .content .me > .bubble div > span{
     text-align: right;
@@ -353,11 +363,13 @@ export default {
     display: flex;
     justify-content: flex-start;
 }
-.content .you >.bubble > div{
+.content .you > .bubble div{
     padding: 0 5px;
+    width: 100%;
 }
-.content .you >.bubble > div .text{
+.content .you > .bubble > div .text{
     max-width: 60%;
+    width: fit-content;
     min-width: 80px;
     font-size: 14px;
     word-wrap:break-word;
@@ -367,6 +379,13 @@ export default {
     padding: 5px 10px;
     color: white;
 }
+
+.content .you > .bubble > div .img{
+    max-width: 60%;
+    min-width: 80px;
+    margin: 5px 5px 0 0;
+}
+
 
 .content .you > .bubble div > span{
     display: inline;
@@ -436,11 +455,12 @@ textarea::-webkit-scrollbar-thumb,.content::-webkit-scrollbar-thumb
     max-height:  90px;;
     min-height: 90px;
     width: 100%;
+    font-size: 10px;
     resize: none;
     border: 0;
     resize: none;
     padding: 5px;
-    font-size: 16px;
+    font-size: 12px;
     outline: none;
     
 }
