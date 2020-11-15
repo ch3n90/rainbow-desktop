@@ -69,7 +69,7 @@ function createChatWindow () {
     width: 1000,
     height: 800,
     icon: path.join(__static, 'icon.png'),
-    resizable:false,
+    // resizable:false,
     autoHideMenuBar:true,
     frame:false,
     show:false,

@@ -111,6 +111,24 @@ export default {
   border: 0px;
 }
 
+.list::-webkit-scrollbar-track
+{
+	background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar-thumb
+{
+	background-color: #d2d2d2;
+    border-radius: 8px;
+}
+
+
 .list .select{
     background-color: #232323;
 }
@@ -150,15 +168,23 @@ export default {
 }
 
 .contactInfo{
-    margin-left: 5%;
+    margin: 0 5%;
     height: 45px;
-    width: 60%;
+    width: 50%;
     font-size: 13px;
     display: flex;
     display: -webkit-flex;
     justify-content: center;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.contactName{
+    width: 100%;
+    text-align: left;
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+    white-space:nowrap; 
 }
 
 .contactTime{
@@ -177,8 +203,13 @@ export default {
 }
 
 .lastMsg{
+    width: 100%;
     height: 20px;
     font-size: 11px;
+    text-align: left;
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+    white-space:nowrap; 
 }
 
 </style>>

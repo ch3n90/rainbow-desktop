@@ -5,24 +5,27 @@
         </div>
         <div class="content" ref="msgWarp" @click="cancelEmojiPicker">
              <div :class="item.sender === receiver.userId?'you':'me'" v-for="(item,index) in $store.getters.getSession" :key="index">
-                <div class="time">
-                    <span>{{item.date | format}}</span>
-                </div>
                 <div class="bubble" v-if="item.sender == receiver.userId">
-                     <img class="avatar" v-bind:src="receiver.avatar" alt="">
-                    <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                    <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
-                        <img :src="item.content.uri"
-                        :width="item.content.width | imgW"
-                        :height="item.content.height | imgH(item.content.width)"/>
-                    </div>
+                    <img class="avatar" v-bind:src="receiver.avatar" alt="">
+                        <div>
+                            <span>{{item.date | format}}</span>
+                            <div v-if="item.msgType == 1">{{item.content.txt}}</div>
+                            <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
+                                <img :src="item.content.uri"
+                                :width="item.content.width | imgW"
+                                :height="item.content.height | imgH(item.content.width)"/>
+                            </div>
+                        </div>
                 </div>
                 <div class="bubble" v-else>
-                    <div v-if="item.msgType == 1">{{item.content.txt}}</div>
-                    <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
-                         <img :src="item.content.uri"
-                        :width="item.content.width | imgW"
-                        :height="item.content.height | imgH(item.content.width)"/>
+                    <div>
+                        <span>{{item.date | format}}</span>
+                        <div v-if="item.msgType == 1">{{item.content.txt}}</div>
+                        <div v-else-if="item.msgType == 2" style="background-color:#f5f5f5">
+                            <img :src="item.content.uri"
+                            :width="item.content.width | imgW"
+                            :height="item.content.height | imgH(item.content.width)"/>
+                        </div>
                     </div>
                     <img class="avatar" :src="$store.getters.getUser.property.avatar" alt="">
                 </div>
@@ -33,7 +36,7 @@
             <Picker set="emojione" v-if='emojiDisplay'
              @select="addEmoji"
              :title="title" emoji="point_up"
-             :style="{ position: 'absolute', bottom: '110px', left: '0px' }"
+             :style="{ position: 'absolute', bottom: '120px', left: '0px' }"
              :i18n="i18n"
              :native="true"
              :sheetSize="20"
@@ -43,7 +46,7 @@
                  <span type="button" class="iconfont icon-wenjian1"  @click="sendPic"/>
              </div>
 
-            <textarea ref="inputMsg" v-model="msg" @keydown.enter="send2" @keyup.enter="send"></textarea>
+            <textarea ref="inputMsg" autofocus='autofocus' spellcheck='false' v-model="msg" @keydown.enter="send2" @keyup.enter="send"></textarea>
         </div>
     </div>
 </template>
@@ -203,9 +206,6 @@ export default {
     },
     created(){
         this.receiver = this.$store.getters.getReceiver;
-        // this.user = this.$store.getters.getUser;
-        // this.userProperty = this.$store.getters.getUserPropery;
-
         this.loadMessage();
     },
     mounted(){
@@ -248,13 +248,12 @@ export default {
         format:function(time){
             time = new Date(time);
             let fmt = '';
-            if(Math.abs(new Date().getMinutes() - time.getMinutes()) <=5 ){
-                return;
-            }
-            else if(time.getDate() == new Date().getDate()){
+            if(time.getDate() === new Date().getDate()){
                 fmt = "HH:mm";
-            }else{
+            }else if(time.getFullYear() === new Date().getFullYear()){
                 fmt = "MM-dd HH:mm";
+            }else{
+                fmt = "yyyy-MM-dd HH:mm";
             }
             var o = {
                         "M+": time.getMonth() + 1, // 月份
@@ -279,14 +278,17 @@ export default {
 <style scoped>
 .right > div{
     height: 100%;
+    position: relative;
     overflow: hidden;
 }
 
 .right .label{
     height: 35px;
+    width: 100%;
     border-bottom: 1px solid #e7e7e7;
     line-height: 35px;
     text-align: center;
+    position: absolute;
 }
 
 .right .label span{
@@ -294,32 +296,14 @@ export default {
 }
 
 .right .content{
-    height: 82%;
+    position: absolute;
+    top: 35px;
+    bottom: 120px;
     overflow-y:scroll;
-}
-
-.typing{
-    height: 13%;
-    min-height: 110px;
-    width: 100%;
-    position: relative;
-    bottom: 0px;
-}
-
-.typing textarea{
-    display: block;
-    width: 100%;
-    border: 0;
-    height: 100%;
-    resize: none;
-    padding: 5px;
-    font-size: 16px;
-    outline: none;
 }
 
 .content > div{
     padding: 5px 10px;
-
 }
 
 .content .me .bubble{
@@ -329,34 +313,47 @@ export default {
     justify-content: flex-end;
 }
 
-.content .me > .bubble div{
+.content .me > .bubble > div{
+    padding: 0 5px;
+}
+
+.content .me > .bubble > div > div{
     max-width: 60%;
+    min-width: 80px;
     margin: 5px 5px 0 0;
-    background-color: #fff;
+    font-size: 14px;
     word-wrap:break-word;
     word-break:break-all;
     border-radius: 20px 0 20px 20px;
     background-color: #25B6D1;
     padding: 5px 10px;
     color: white;
+    float: right;
 }
 
-.content div .time{
-    text-align: center;
-    color: #b2b2b2;
-    font-size: 14px;
+.content .me > .bubble div > span{
+    text-align: right;
+    display: block;
+    font-size: 10px;
+    color:#b2b2b2;
+    padding: 0 2px;
+    border-radius: 3px;
 }
 
+/*  ********************************** */
 .content .you .bubble{
     width: 100%;
     padding: 5px 0;
     display: -webkit-flex;
     justify-content: flex-start;
 }
-
-.content .you >.bubble div{
+.content .you >.bubble > div{
+    padding: 0 5px;
+}
+.content .you >.bubble > div > div{
     max-width: 60%;
-    margin: 5px 0 0 5px;
+    min-width: 80px;
+    font-size: 14px;
     word-wrap:break-word;
     word-break:break-all;
     border-radius: 0 20px 20px 20px;
@@ -365,50 +362,82 @@ export default {
     color: white;
 }
 
+.content .you > .bubble div > span{
+    display: inline;
+    font-size: 10px;
+    color:#b2b2b2;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+
 .content .avatar{
     width: 35px;
     height: 35px;
     border-radius: 35px;
+    margin-top: 5px;
 }
 
-.content::-webkit-scrollbar-track
+textarea::-webkit-scrollbar-track,.content::-webkit-scrollbar-track
 {
-	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); */
 	background-color: #f5f5f5;
 }
 
-.content::-webkit-scrollbar
+textarea::-webkit-scrollbar,.content::-webkit-scrollbar
 {
 	width: 8px;
 	background-color: #f5f5f5;
 }
 
-.content::-webkit-scrollbar-thumb
+textarea::-webkit-scrollbar-thumb,.content::-webkit-scrollbar-thumb
 {
 	background-color: #d2d2d2;
     border-radius: 8px;
 }
 
+.typing{
+    height: 120px;
+    max-height:  120px;;
+    min-height: 120px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
 
-.toolbar {
+.typing .toolbar {
     border-top: 1px solid #e7e7e7;
     width: 100%;
+    height: 30px;
     background-color: #fff;
 }
 
-.toolbar span{
+.typing .toolbar span{
     line-height: 30px;
     width: 30px;
     margin-left: 15px;
     font-size: 25px;
     line-height: 30px;
     color: #666;
-    /* display: inline-block; */
-    /* font-size: 30px; */
 }
 
-.toolbar span:hover{
+.typing .toolbar span:hover{
     cursor: pointer;
 }
+
+
+.typing textarea{
+    height: 90px;
+    max-height:  90px;;
+    min-height: 90px;
+    width: 100%;
+    resize: none;
+    border: 0;
+    resize: none;
+    padding: 5px;
+    font-size: 16px;
+    outline: none;
+    
+}
+
 
 </style>

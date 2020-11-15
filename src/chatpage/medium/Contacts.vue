@@ -148,6 +148,23 @@ export default {
   border: 0px;
 }
 
+.list::-webkit-scrollbar-track
+{
+	background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #f5f5f5;
+}
+
+.list::-webkit-scrollbar-thumb
+{
+	background-color: #d2d2d2;
+    border-radius: 8px;
+}
+
 .list .select{
     background-color: #232323;
 }
@@ -195,6 +212,9 @@ export default {
     justify-content: center;
     flex-direction: column;
     align-items: flex-start;
+     overflow:hidden; 
+    text-overflow:ellipsis; 
+    white-space:nowrap; 
 }
 .group{
     margin-bottom: 20px;
