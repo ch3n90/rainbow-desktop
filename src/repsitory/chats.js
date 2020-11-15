@@ -6,6 +6,7 @@ function insert(doc){
 }
 
 function query(user,pageNum,CALLBACK){
+    console.log(pageNum);
     const table = db.chats;
     const collection = table
     .where('sender').equals(user)

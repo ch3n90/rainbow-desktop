@@ -131,13 +131,14 @@ export default {
                         this.$store.commit('addMessage',msgResp);
                         insertChat(msgResp);
                         let sessions = this.$store.getters.getSessions;
-                        let session = sessions[msgResp.receiver];
-                        if(session){
-                            session.lastMsg = "[图片]";
-                            session.lastMsgTime = msgResp.date;
-                            sessionStorage.setItem("sessions",JSON.stringify(sessions));
-                        }
-
+                        sessions.some((session,index,array) => {
+                            if(session.userId === msgResp['receiver']){
+                                session.lastMsgTime = msgResp.date;
+                                session.lastMsg = "[图片]";
+                                this.$set(sessions,index, session);
+                                return true;
+                            }
+                        });
                     }
                 })
             });

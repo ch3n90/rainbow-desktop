@@ -58,7 +58,7 @@
 
 <script>
 import HttpApi from '../../util/http'
-const {insertSessions} = require('../../repsitory/sessions')
+const {insertSessions,updateRemarkById} = require('../../repsitory/sessions')
 
 export default {
     name:"Contact",
@@ -144,7 +144,7 @@ export default {
                         if(session.userId === this.contact.userId){
                             session.remark = this.remark;
                             //刷新数据库
-                            
+                            updateRemarkById(this.remark,session.userId)
                             return true;
                         }
                     });

@@ -16,6 +16,13 @@ function updateLastMsgTimeAndLastMsgContentById(lastMsgTime,lastMsgContent,unrea
         .modify({"lastMsgTime":lastMsgTime,"lastMsg":lastMsgContent,"unread":unread});
 }
 
+function updateRemarkById(remark,userId){
+    return db.sessions.where("userId")
+        .equals(userId)
+        .modify({"remark":remark});
+}
+
 export {insert as insertSessions,
     query as querySessions,
-    updateLastMsgTimeAndLastMsgContentById}
+    updateLastMsgTimeAndLastMsgContentById,
+    updateRemarkById}
