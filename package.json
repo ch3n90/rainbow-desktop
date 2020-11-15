@@ -2,7 +2,7 @@
   "author": "ch3ng",
   "description": "rainbow desktop",
   "name": "rainbow",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "electron:build": "vue-cli-service electron:build",
