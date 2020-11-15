@@ -21,7 +21,7 @@ npm run electron:serve
 npm run electron:build
 ```
 
-你也可以到release页面进行我编译好的软件。
+你也可以到releases页面下载我编译好的软件。
 
 ## License
 
