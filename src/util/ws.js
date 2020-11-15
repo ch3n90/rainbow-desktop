@@ -4,6 +4,8 @@ const remote = require('electron').remote
 let WS = {
     stompClient:null,
 };
+const uri = process.env.NODE_ENV === 'development' ? '/ws' : 'http://web.rainbow.milchstrabe.com/ws'
+
 WS.install = function(Vue){
 
     Vue.prototype.$ws = {
@@ -13,7 +15,7 @@ WS.install = function(Vue){
             let token =remote.getGlobal('cache').token;
             let cid =  localStorage.getItem("cid");
 
-            let socket = new SockJS('/ws/rainbow-ws?sid='+token+"&cid="+cid);
+            let socket = new SockJS(uri + '/rainbow-ws?sid='+token+"&cid="+cid);
             // 获取STOMP子协议的客户端对象
             WS.stompClient = Stomp.over(socket);
             // 定义客户端的认证信息,按需求配置

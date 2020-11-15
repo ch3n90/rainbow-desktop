@@ -23,6 +23,7 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 function createAuthWindow () {
+  console.log(isDevelopment);
   // Create the browser window.
   const authWin = new BrowserWindow({
     width: 330,
@@ -40,6 +41,7 @@ function createAuthWindow () {
       nodeIntegration: true,
       enableRemoteModule:true,
       webSecurity:false,
+      // devTools:isDevelopment,
     },
   });
 
@@ -80,7 +82,8 @@ function createChatWindow () {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: true,
       enableRemoteModule:true,
-      // webSecurity:false,
+      webSecurity:false,
+      // devTools:isDevelopment,
     },
   });
  
@@ -169,12 +172,38 @@ ipcMain.on('put-in-tray', (event) => {
  
   if(!appIcon || appIcon.isDestroyed()){
     appIcon = new Tray(iconPath)
-    const contextMenu = Menu.buildFromTemplate([{
-      label: '退出',
-              click: () => {
-                app.quit();
-              }
-    }])
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: '设置',
+        click: () => {
+                  
+                }
+      },
+      {
+        label: '帮助',
+        click: () => {
+                  
+                }
+      },
+      {
+        label: '反馈',
+        click: () => {
+                  
+                }
+      },
+      {
+        label: '关于',
+        click: () => {
+                  
+                }
+      },
+      {
+        label: '退出',
+        click: () => {
+                  app.quit();
+                }
+      },
+    ])
     appIcon.on('click',()=> {
       chatWin.show();
     })

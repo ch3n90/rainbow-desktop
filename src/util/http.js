@@ -4,7 +4,7 @@ const remote = require('electron').remote
 
 
 let token;
-const uri = process.env.NODE_ENV === 'development' ? '/rb' : 'http://192.168.1.118:9090'
+const uri = process.env.NODE_ENV === 'development' ? '/rb' : 'http://web.rainbow.milchstrabe.com/rb'
 
 const instance = axios.create({
     baseURL: uri,
@@ -26,7 +26,6 @@ instance.interceptors.request.use(function (config) {
 
 instance.interceptors.response.use(function (response) {
     if(response.data.code == 304){
-      console.log("--------------")
         // router.replace({path:"/login"});
     }
     return response.data;
